@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestArchitectureReviewOne.WebApi", "TestArchitectureReviewOne.WebApi\TestArchitectureReviewOne.WebApi.csproj", "{04A1F609-2B59-4443-B517-AA5AE403EA9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestArchitectureReviewOne.Domain", "TestArchitectureReviewOne.Domain\TestArchitectureReviewOne.Domain.csproj", "{4A43A837-563F-4326-8CAF-D380DC921761}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04A1F609-2B59-4443-B517-AA5AE403EA9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04A1F609-2B59-4443-B517-AA5AE403EA9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04A1F609-2B59-4443-B517-AA5AE403EA9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04A1F609-2B59-4443-B517-AA5AE403EA9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A43A837-563F-4326-8CAF-D380DC921761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A43A837-563F-4326-8CAF-D380DC921761}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A43A837-563F-4326-8CAF-D380DC921761}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A43A837-563F-4326-8CAF-D380DC921761}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
