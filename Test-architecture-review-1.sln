@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestArchitectureReviewOne.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestArchitectureReviewOne.Domain", "TestArchitectureReviewOne.Domain\TestArchitectureReviewOne.Domain.csproj", "{4A43A837-563F-4326-8CAF-D380DC921761}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestArchitectureReviewOne.Database", "TestArchitectureReviewOne.Database\TestArchitectureReviewOne.Database.csproj", "{AEE9242A-052A-47D9-ADB2-EF42AFBFE2BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{4A43A837-563F-4326-8CAF-D380DC921761}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A43A837-563F-4326-8CAF-D380DC921761}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A43A837-563F-4326-8CAF-D380DC921761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE9242A-052A-47D9-ADB2-EF42AFBFE2BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE9242A-052A-47D9-ADB2-EF42AFBFE2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE9242A-052A-47D9-ADB2-EF42AFBFE2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE9242A-052A-47D9-ADB2-EF42AFBFE2BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
