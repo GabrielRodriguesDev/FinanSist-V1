@@ -7,8 +7,11 @@ namespace TestArchitectureReviewOne.Domain.Entities
         {
 
         }
-        public string? Nome { get; set; }
-        public string? Apelido { get; set; }
+
+        #region Property
+        public string? Nome { get; private set; }
+        public string? Apelido { get; private set; }
+        #endregion
 
     }
 }
