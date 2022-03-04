@@ -6,6 +6,7 @@ namespace TestArchitectureReviewOne.Database.Mappings
 {
     public class BaseMapping<TEntity> where TEntity : BaseEntity
     {
+#nullable disable
         protected EntityTypeBuilder<TEntity> entity;
 
         public virtual void OnModelCreating(ModelBuilder modelBuilder)

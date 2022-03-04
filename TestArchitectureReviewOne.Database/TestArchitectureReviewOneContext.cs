@@ -7,6 +7,7 @@ namespace TestArchitectureReviewOne.Database
 {
     public class TestArchitectureReviewOneContext : DbContext
     {
+#nullable disable
         public TestArchitectureReviewOneContext(DbContextOptions<TestArchitectureReviewOneContext> options) : base(options)
         {
 

@@ -11,6 +11,7 @@ namespace TestArchitectureReviewOne.Domain.Notifications
 
 
         #region  Property
+#nullable disable
         public List<Notification> Notifications { get; private set; } //Propriedade que pode alocar uma lista de notifications.
         #endregion
 

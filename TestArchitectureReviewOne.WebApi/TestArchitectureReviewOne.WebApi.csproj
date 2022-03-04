@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TestArchitectureReviewOne.Domain\TestArchitectureReviewOne.Domain.csproj" />
+    <ProjectReference Include="..\TestArchitectureReviewOne.Database\TestArchitectureReviewOne.Database.csproj" />
   </ItemGroup>
 
 </Project>

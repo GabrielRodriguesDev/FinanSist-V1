@@ -9,8 +9,8 @@ namespace TestArchitectureReviewOne.Domain.Entities
         }
 
         #region Property
-        public string? Nome { get; private set; }
-        public string? Apelido { get; private set; }
+        public string? Nome { get; private set; } = null!;
+        public string? Apelido { get; private set; } = null!;
         #endregion
 
     }

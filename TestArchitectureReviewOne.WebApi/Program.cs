@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using TestArchitectureReviewOne.Database;
+using TestArchitectureReviewOne.Database.Repositories;
+using TestArchitectureReviewOne.Domain.Interfaces.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+#region  DI
+builder.Services.AddScoped<IEntidadeRepository, EntidadeRepository>();
+builder.Services.AddScoped<TestArchitectureReviewOneContext, TestArchitectureReviewOneContext>();
+builder.Services.AddDbContext<TestArchitectureReviewOneContext>(options => options.UseMySql("Server=localhost;Port=3306;Database=TestArchitectureReviewOne;Uid=root;Pwd=fx870", ServerVersion.AutoDetect("Server=localhost;Port=3306;Database=TestArchitectureReviewOne;Uid=root;Pwd=fx870")));
+
+#endregion
 
 var app = builder.Build();
 
@@ -17,7 +29,7 @@ if (app.Environment.IsDevelopment())
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
         options.RoutePrefix = string.Empty;
-});
+    });
 }
 
 app.UseHttpsRedirection();

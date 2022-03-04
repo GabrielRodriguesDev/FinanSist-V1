@@ -1,4 +1,6 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using TestArchitectureReviewOne.Domain.Interfaces.Repositories;
 
 namespace TestArchitectureReviewOne.WebApi.Controllers;
 
@@ -6,27 +8,31 @@ namespace TestArchitectureReviewOne.WebApi.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
 
-    private readonly ILogger<WeatherForecastController> _logger;
-
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    [HttpGet]
+    [Route("{nome}")]
+    public async Task<IActionResult> Get([FromServices] IEntidadeRepository service, [FromRoute] string nome)
     {
-        _logger = logger;
-    }
-
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
-    {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+        var tsc = new TaskCompletionSource<IActionResult>();
+        try
         {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+            var result = service.ExistePorNome(nome);
+
+            tsc.SetResult(new JsonResult(result)
+            {
+                StatusCode = 200
+            });
+        }
+        catch (Exception ex)
+        {
+
+            tsc.SetResult(new JsonResult(ex.Message)
+            {
+                StatusCode = 500,
+
+            });
+        }
+
+        return await tsc.Task;
     }
 }
