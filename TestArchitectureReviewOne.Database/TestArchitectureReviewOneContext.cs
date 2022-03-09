@@ -34,6 +34,7 @@ namespace TestArchitectureReviewOne.Database
             }
         }
 
-        public DbSet<Entidade> Entidades { get; set; }
+
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }

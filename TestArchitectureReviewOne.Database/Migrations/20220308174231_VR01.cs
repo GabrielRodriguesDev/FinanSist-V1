@@ -13,35 +13,40 @@ namespace TestArchitectureReviewOne.Database.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Entidade",
+                name: "Usuario",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Nome = table.Column<string>(type: "varchar(60)", nullable: false, comment: "Nome da entidade")
+                    Nome = table.Column<string>(type: "varchar(120)", nullable: false, comment: "Nome do usúario")
                         .Annotation("MySql:CharSet", "utf8"),
-                    Apelido = table.Column<string>(type: "varchar(60)", nullable: true, comment: "Apelido da entidade")
+                    Email = table.Column<string>(type: "varchar(100)", nullable: false, comment: "E-mail do usúario")
                         .Annotation("MySql:CharSet", "utf8"),
+                    Telefone = table.Column<string>(type: "varchar(30)", nullable: false, comment: "Telefone do usúario")
+                        .Annotation("MySql:CharSet", "utf8"),
+                    Senha = table.Column<string>(type: "longtext", nullable: true, comment: "Senha do usúario")
+                        .Annotation("MySql:CharSet", "utf8"),
+                    Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CriadoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     AlteradoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Entidade", x => x.Id);
+                    table.PrimaryKey("PK_Usuario", x => x.Id);
                 },
-                comment: "Tabela reposável por registrar as entidades")
+                comment: "Tabela reposável por organizar os usuários")
                 .Annotation("MySql:CharSet", "utf8");
 
             migrationBuilder.CreateIndex(
-                name: "unq1_entidade",
-                table: "Entidade",
-                column: "Nome",
+                name: "UnqUsuarioEmail",
+                table: "Usuario",
+                column: "Email",
                 unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Entidade");
+                name: "Usuario");
         }
     }
 }

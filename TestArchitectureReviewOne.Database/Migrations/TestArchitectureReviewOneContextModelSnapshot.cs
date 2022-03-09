@@ -19,7 +19,7 @@ namespace TestArchitectureReviewOne.Database.Migrations
                 .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("TestArchitectureReviewOne.Domain.Entities.Entidade", b =>
+            modelBuilder.Entity("TestArchitectureReviewOne.Domain.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -28,27 +28,40 @@ namespace TestArchitectureReviewOne.Database.Migrations
                     b.Property<DateTime?>("AlteradoEm")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Apelido")
-                        .HasColumnType("varchar(60)")
-                        .HasComment("Apelido da entidade");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("CriadoEm")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasComment("E-mail do usúario");
+
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("varchar(60)")
-                        .HasComment("Nome da entidade");
+                        .HasColumnType("varchar(120)")
+                        .HasComment("Nome do usúario");
+
+                    b.Property<string>("Senha")
+                        .HasColumnType("longtext")
+                        .HasComment("Senha do usúario");
+
+                    b.Property<string>("Telefone")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)")
+                        .HasComment("Telefone do usúario");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Nome")
+                    b.HasIndex("Email")
                         .IsUnique()
-                        .HasDatabaseName("unq1_entidade");
+                        .HasDatabaseName("UnqUsuarioEmail");
 
-                    b.ToTable("Entidade", (string)null);
+                    b.ToTable("Usuario", (string)null);
 
-                    b.HasComment("Tabela reposável por registrar as entidades");
+                    b.HasComment("Tabela reposável por organizar os usuários");
 
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
                 });

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace TestArchitectureReviewOne.Domain.Queries
 {
-    public static class EntidadeQueries
+    public static class BaseQueries
     {
-        public static string ExistePorNome()
+        public static string ExistePorId(string table)
         {
-            return "Select Nome from Entidade where Nome = @Nome";
+            return $"Select Id from {table} where Id = @Id";
         }
     }
 }

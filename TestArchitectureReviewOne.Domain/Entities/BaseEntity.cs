@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace TestArchitectureReviewOne.Domain.Entities
 {
     public class BaseEntity
@@ -24,9 +19,9 @@ namespace TestArchitectureReviewOne.Domain.Entities
             this.CriadoEm = time;
         }
 
-        public void setAlteradoEm(DateTime time)
+        public void setAlteradoEm()
         {
-            this.CriadoEm = time;
+            this.AlteradoEm = DateTime.Now; ;
         }
 
         public void setId(Guid id)
