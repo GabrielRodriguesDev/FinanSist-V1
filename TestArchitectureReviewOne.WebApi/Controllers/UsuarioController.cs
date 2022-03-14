@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using TestArchitectureReviewOne.Domain.Commands.Usuario;
 using TestArchitectureReviewOne.Domain.Interfaces.Repositories;
 using TestArchitectureReviewOne.Domain.Interfaces.Services;
+using TestArchitectureReviewOne.Domain.Queries;
+using TestArchitectureReviewOne.Domain.Queries.Params;
 
 namespace TestArchitectureReviewOne.WebApi.Controllers
 {
@@ -13,8 +15,6 @@ namespace TestArchitectureReviewOne.WebApi.Controllers
     [Route("[controller]")]
     public class UsuarioController : ControllerBase
     {
-
-
         [HttpPost]
         public async Task<IActionResult> Create([FromServices] IUsuarioService service, [FromBody] CreateUsuarioCommand cmd)
         {
@@ -94,9 +94,14 @@ namespace TestArchitectureReviewOne.WebApi.Controllers
             var tsc = new TaskCompletionSource<IActionResult>();
             try
             {
-                dynamic? result = repository.Get(id);
-                if (result == null) result = new GenericCommandResult(false, "Desculpe, usuário não foi localizado.");
+                var searchFormParams = new SearchFormParams();
+                dynamic? result;
+                searchFormParams.Id = id;
+                searchFormParams.NomeTabela = "Usuario";
+                searchFormParams.CamposTabela = UsuarioQueries.ExtrairCamporForm().CamposTabela;
 
+                result = repository.PesquisarForm(searchFormParams);
+                if (result == null) new GenericCommandResult(false, "Desculpe, usuário não foi localizado.");
 
                 tsc.SetResult(new JsonResult(result)
                 {

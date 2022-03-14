@@ -11,7 +11,7 @@ using TestArchitectureReviewOne.Database;
 namespace TestArchitectureReviewOne.Database.Migrations
 {
     [DbContext(typeof(TestArchitectureReviewOneContext))]
-    [Migration("20220308174231_VR01")]
+    [Migration("20220313181923_VR01")]
     partial class VR01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,9 @@ namespace TestArchitectureReviewOne.Database.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(100)")
                         .HasComment("E-mail do usúario");
+
+                    b.Property<bool>("ExigirNovaSenha")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Nome")
                         .IsRequired()

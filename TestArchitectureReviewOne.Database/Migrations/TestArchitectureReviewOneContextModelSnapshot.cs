@@ -39,6 +39,9 @@ namespace TestArchitectureReviewOne.Database.Migrations
                         .HasColumnType("varchar(100)")
                         .HasComment("E-mail do usúario");
 
+                    b.Property<bool>("ExigirNovaSenha")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(120)")

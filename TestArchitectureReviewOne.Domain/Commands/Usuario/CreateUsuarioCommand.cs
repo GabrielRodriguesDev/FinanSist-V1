@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TestArchitectureReviewOne.Domain.Helpers;
@@ -14,7 +15,9 @@ namespace TestArchitectureReviewOne.Domain.Commands.Usuario
         #region  Property
         public string Nome { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public string Senha { get; set; } = null!;
+        [JsonIgnore]
+        public string? SenhaTemporaria { get; set; } = null!;
+
         public bool Ativo { get; set; }
         private string _Telefone = null!;
 

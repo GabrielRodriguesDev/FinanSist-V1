@@ -26,6 +26,7 @@ namespace TestArchitectureReviewOne.Database.Migrations
                     Senha = table.Column<string>(type: "longtext", nullable: true, comment: "Senha do usúario")
                         .Annotation("MySql:CharSet", "utf8"),
                     Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ExigirNovaSenha = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CriadoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     AlteradoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },

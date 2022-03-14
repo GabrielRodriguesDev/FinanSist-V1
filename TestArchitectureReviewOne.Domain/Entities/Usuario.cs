@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestArchitectureReviewOne.Domain.Commands.Usuario;
+using TestArchitectureReviewOne.Domain.Helpers;
 
 namespace TestArchitectureReviewOne.Domain.Entities
 {
@@ -15,6 +16,8 @@ namespace TestArchitectureReviewOne.Domain.Entities
         public string Telefone { get; private set; } = null!;
         public string? Senha { get; private set; } = null!;
         public bool Ativo { get; private set; }
+        public bool ExigirNovaSenha { get; private set; }
+
 
         #endregion
 
@@ -27,8 +30,9 @@ namespace TestArchitectureReviewOne.Domain.Entities
             this.Nome = cmd.Nome;
             this.Email = cmd.Email;
             this.Telefone = cmd.Telefone;
-            this.Senha = cmd.Senha;
+            this.SenhaPadrao(cmd.SenhaTemporaria!);
             this.Ativo = cmd.Ativo;
+            this.ExigirNovaSenha = true;
         }
 
         public void Update(UpdateUsuarioCommand cmd)
@@ -42,5 +46,11 @@ namespace TestArchitectureReviewOne.Domain.Entities
 
         #endregion
 
+        #region Method
+        public void SenhaPadrao(string senhaTemp)
+        {
+            this.Senha = CriptoHelper.HashPassword(senhaTemp);
+        }
+        #endregion
     }
 }

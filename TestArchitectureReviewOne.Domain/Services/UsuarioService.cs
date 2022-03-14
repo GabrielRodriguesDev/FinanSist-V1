@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestArchitectureReviewOne.Domain.Commands.Usuario;
 using TestArchitectureReviewOne.Domain.Entities;
+using TestArchitectureReviewOne.Domain.Helpers;
 using TestArchitectureReviewOne.Domain.Interfaces.Infrastructure;
 using TestArchitectureReviewOne.Domain.Interfaces.Repositories;
 using TestArchitectureReviewOne.Domain.Interfaces.Services;
@@ -38,6 +39,8 @@ namespace TestArchitectureReviewOne.Domain.Services
             if (usuariodb)
                 return new GenericCommandResult(false, "Desculpe, e-mail já cadastrado em outro usuário.");
 
+            createCommand.SenhaTemporaria = CriptoHelper.createRandomPassword();
+
             var usuario = new Usuario(createCommand);
 
             _uow.BeginTransaction();
@@ -59,7 +62,8 @@ namespace TestArchitectureReviewOne.Domain.Services
             {
                 Id = usuario.Id,
                 Nome = usuario.Nome,
-                Email = usuario.Email
+                Email = usuario.Email,
+                SenhaTemporaria = $"Senha temporária do usuário {usuario.Nome}: {createCommand.SenhaTemporaria}"
             });
 
         }
