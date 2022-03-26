@@ -13,7 +13,7 @@ namespace FinanSist.Domain.Queries
     {
         public static ExtracaoCamposParams ExtrairCamposForm()
         {
-            var type = typeof(EntidadeFormQuery);
+            var type = typeof(EntidadeFormQueryResult);
             PropertyInfo[] properties = type.GetProperties();
             String[] camposTabela = properties.Select(campo =>
             {

@@ -16,6 +16,6 @@ public class ConfigureRepository
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         services.AddScoped<ICategoriaRepository, CategoriaRepository>();
-
+        services.AddScoped<IEntidadeRepository, EntidadeRepository>();
     }
 }

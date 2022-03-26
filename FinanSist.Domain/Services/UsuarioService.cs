@@ -83,7 +83,7 @@ namespace FinanSist.Domain.Services
                 _uow.Rollback();
                 throw;
             }
-            return new GenericCommandResult(true, "Usuário removido com sucesso!", null);
+            return new GenericCommandResult(true, "Usuário removido com sucesso.", null);
         }
 
         public GenericCommandResult Update(UpdateUsuarioCommand updateCommand)

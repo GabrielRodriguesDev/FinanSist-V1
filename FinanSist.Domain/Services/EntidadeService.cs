@@ -119,7 +119,7 @@ namespace FinanSist.Domain.Services
                 _uow.Rollback();
                 throw;
             }
-            return new GenericCommandResult(true, "Entidade removida com sucesso!");
+            return new GenericCommandResult(true, "Entidade removida com sucesso.");
         }
         #endregion
     }

@@ -103,7 +103,7 @@ namespace FinanSist.Domain.Services
                 _uow.Rollback();
                 throw;
             }
-            return new GenericCommandResult(true, "Categoria removida com sucesso!");
+            return new GenericCommandResult(true, "Categoria removida com sucesso");
         }
         #endregion
     }

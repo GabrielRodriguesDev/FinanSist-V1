@@ -12,9 +12,9 @@ namespace FinanSist.Domain.Entities
 
 
         #region Property
-        public String Nome { get; set; } = null!;
+        public String Nome { get; private set; } = null!;
 
-        public int? Tipo { get; set; }
+        public int? Tipo { get; private set; }
 
         public bool Ativo { get; private set; }
         #endregion

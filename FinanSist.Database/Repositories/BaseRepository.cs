@@ -45,7 +45,7 @@ namespace FinanSist.Database.Repositories
 
         public void Delete(Guid id)
         {
-            _connection.Execute($@"Delete from {typeof(TEntity).Name} where Id = @Id", new { Id = id }, _uow.CurrentTransaction());
+            _connection.Execute($@"Delete from {typeof(TEntity).Name} where Id = @Id", new { Id = id });
         }
 
         public bool ExistePorId(Guid? id)

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FinanSist.Domain.Queries.Result.Entidade
 {
-    public class EntidadeFormQuery
+    public class EntidadeFormQueryResult
     {
         public Guid Id { get; set; }
         public String Nome { get; set; } = null!;

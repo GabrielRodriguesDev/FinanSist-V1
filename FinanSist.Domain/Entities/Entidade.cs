@@ -9,9 +9,9 @@ namespace FinanSist.Domain.Entities
     public class Entidade : BaseEntity
     {
         #region Property
-        public String Nome { get; set; } = null!;
-        public String Descricao { get; set; } = null!;
-        public bool Ativo { get; set; }
+        public String Nome { get; private set; } = null!;
+        public String Descricao { get; private set; } = null!;
+        public bool Ativo { get; private set; }
         #endregion
 
         #region  Constructor

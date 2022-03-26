@@ -88,11 +88,10 @@ namespace FinanSist.Domain.Entities
         {
             if (String.IsNullOrEmpty(permissao))
             {
-                return this.Permissao;
+                return this!.Permissao!;
             }
             return permissao;
         }
-
         #endregion
     }
 }
