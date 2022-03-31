@@ -1,0 +1,36 @@
+version: "3.8"
+
+volumes: #Seção de volumes
+  finansist: #Criando volume
+
+networks: #Seção de rede
+  mysqlNet: #Criando rede
+  finansistNET: #Criando rede
+
+  services: #Seção serviços (container)
+    mysql: #Serviço nomeado de mysql
+      image: "mysql:8.0" #Imagem a ser usada para criar o container
+      container_name: mysql #Nome do container
+      ports: #Seção de mapeamento de porta do container
+        - "7000:3306" #Portas do container
+      volumes: #Seção de volumes do container
+        - finansist:/var/lib/mysql #Configurando o volume, tudo que for feito em /var/lib/mysql (caminho do bd) será persistido no volume finansist
+      networks: #Seção de rede
+        - mysqlNet #Definindo a rede
+      environment: #Seção de variavéis
+        - MYSQL_ROOT_PASSWORD=fx870 #Setando a senha do root
+        - bind-address:0.0.0.0 #Permitindo conexão ao servidor mysql de qualquer ip
+        - MYSQL_ROOT_HOST=% #Permitindo conexão de qualquer host
+
+    finansist: #Serviço nomenado de finansist
+      buid: #Build do serviço, construido a partir de um dockerfile
+        context: . #Caminho do dockerfile (. sigfinifica pasta atual)
+        dockerfile: Dockerfile #Nome do arquivo de construção da imagem
+      container_name: finansist #Nome do container
+      ports: #Seção de mapeamento de porta do container
+        - 5000:80
+      networks: #Seção de rede, vamos definir duas redes, sendo que a rede finansistNet não será usada para nada, é só uma boa prática para caso queiramos colocar outro serviço e não compartilhar a rede com o BD
+        - mysqlNet
+        - finansistNet
+      depends_on: #Seção de dependencia do container
+        - mysql #Definindo que o coontainer finansist para funcionar, depende que o container mysql esteja no ar

@@ -15,7 +15,7 @@ namespace FinanSist.Domain.Commands.Email
 
             msg.Assunto = $"Bom ter você de volta, {usuario.Nome.Split(" ")[0]}";
             //msg.De = Environment.GetEnvironmentVariable("NomeDeEmail")!;
-            msg.De = "b.i@onsist.com.br";
+            msg.De = "gabriel@gabriel.com.br";
             msg.Html = true;
             //var domain = Environment.GetEnvironmentVariable("Domain");
             msg.Corpo = $@"<p>Olá, {usuario.Nome}</p><p><br><p>Token: {usuario.TokenSenha} <br><p>*Este link expira em 30 minutos</p>";

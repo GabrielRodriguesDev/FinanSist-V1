@@ -88,11 +88,41 @@ builder.Services.AddAuthentication(auth =>
                 });
 #endregion
 
+#region CORS
+/*
+string[] listaCors = { };
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+if (environment == "Development")
+{
+    listaCors = new string[] {
+                "https://localhost:4200",
+                };
+}
+else
+{
+    listaCors = new string[] {
+        "https://finansist.com.br"
+    };
+};
+*/
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsApi", builder =>
+    {
+        builder.WithOrigins("http://example.com",
+                            "http://www.contoso.com")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+    });
+});
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
@@ -102,6 +132,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsApi");
+
 
 #region  Auth
 app.UseAuthentication();
