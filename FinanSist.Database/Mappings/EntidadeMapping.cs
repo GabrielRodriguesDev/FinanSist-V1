@@ -11,14 +11,14 @@ namespace FinanSist.Database.Mappings
     {
         public override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder); //Executando classe da base (BaseMapping).
 
             entity.Property(a => a.Nome).HasColumnType("varchar(120)").IsRequired();
-            entity.Property(a => a.Descricao).HasColumnType("varchar(200)").IsRequired();
+            entity.Property(a => a.Descricao).HasColumnType("varchar(200)");
             entity.HasIndex(a => a.Nome).HasDatabaseName("UnqEntidadeNome").IsUnique();
 
 
-            #region Comentários
+            #region Comments
             entity.HasComment("Tabela reposável pelos registros das entidades");
             entity.Property(b => b.Nome).HasComment("Nome da entidade");
             entity.Property(b => b.Descricao).HasComment("Descrição da entidade");

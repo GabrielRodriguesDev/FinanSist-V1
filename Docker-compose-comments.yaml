@@ -23,7 +23,7 @@ networks: #Seção de rede
         - MYSQL_ROOT_HOST=% #Permitindo conexão de qualquer host
 
     finansist: #Serviço nomenado de finansist
-      buid: #Build do serviço, construido a partir de um dockerfile
+      build: #Build do serviço, construido a partir de um dockerfile
         context: . #Caminho do dockerfile (. sigfinifica pasta atual)
         dockerfile: Dockerfile #Nome do arquivo de construção da imagem
       container_name: finansist #Nome do container

@@ -32,17 +32,11 @@ namespace FinanSist.Domain.Commands.Entidade
                 }
             }
 
-            if (String.IsNullOrEmpty(this.Descricao))
+            if (this.Nome.Length > 120)
             {
-                this.AddNotification("Nome", "Informe a Descrição.");
+                this.AddNotification("Nome", "Descrição deve conter no máximo 200 caracteres.");
             }
-            else
-            {
-                if (this.Nome.Length > 120)
-                {
-                    this.AddNotification("Nome", "Descrição deve conter no máximo 200 caracteres.");
-                }
-            }
+
         }
     }
 }

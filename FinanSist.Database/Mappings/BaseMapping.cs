@@ -11,7 +11,7 @@ namespace FinanSist.Database.Mappings
 
         public virtual void OnModelCreating(ModelBuilder modelBuilder)
         {
-            this.entity = modelBuilder.Entity<TEntity>();
+            this.entity = modelBuilder.Entity<TEntity>(); // Retorna o objeto, para configurar a entidade no modelo.
             entity.ToTable(typeof(TEntity).Name).HasCharSet("utf8"); //Nome da tabela
             entity.HasKey(t => t.Id); //Definindo Id
             entity.Property(a => a.Id).HasColumnType("char(36)").IsRequired(); //Definindo o tipo para ser um id do tipo guid

@@ -9,12 +9,22 @@ namespace FinanSist.Database
     public class FinanSistContext : DbContext
     {
 #nullable disable
+
+        #region Property
+        public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Entidade> Entidades { get; set; }
+        public DbSet<Tag> Tag { get; set; }
+        #endregion
+
+        #region Constructor
         public FinanSistContext(DbContextOptions<FinanSistContext> options) : base(options)
         {
 
         }
+        #endregion
 
-
+        #region  Method
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -34,11 +44,6 @@ namespace FinanSist.Database
                     mappingClass.OnModelCreating(modelBuilder);
             }
         }
-
-
-        public DbSet<Usuario> Usuarios { get; set; }
-        public DbSet<Categoria> Categorias { get; set; }
-
-        public DbSet<Entidade> Entidades { get; set; }
+        #endregion
     }
 }

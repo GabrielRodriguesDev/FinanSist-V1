@@ -53,6 +53,25 @@ namespace FinanSist.Database.Migrations
                 .Annotation("MySql:CharSet", "utf8");
 
             migrationBuilder.CreateTable(
+                name: "Tag",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Nome = table.Column<string>(type: "varchar(120)", nullable: false, comment: "Nome da Tag")
+                        .Annotation("MySql:CharSet", "utf8"),
+                    Descricao = table.Column<string>(type: "varchar(200)", nullable: false, comment: "Descrição da Tag")
+                        .Annotation("MySql:CharSet", "utf8"),
+                    Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    AlteradoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tag", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8");
+
+            migrationBuilder.CreateTable(
                 name: "Usuario",
                 columns: table => new
                 {
@@ -102,6 +121,9 @@ namespace FinanSist.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Entidade");
+
+            migrationBuilder.DropTable(
+                name: "Tag");
 
             migrationBuilder.DropTable(
                 name: "Usuario");

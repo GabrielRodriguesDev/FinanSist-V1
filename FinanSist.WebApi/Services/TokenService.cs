@@ -21,7 +21,7 @@ namespace FinanSist.Domain.Services
             var tokenHandler = new JwtSecurityTokenHandler(); //Classe que vai gerar o token;
             var tokenDescriptor = new SecurityTokenDescriptor
             { //Criando o token;
-                Subject = new ClaimsIdentity(new Claim[] {
+                Subject = new ClaimsIdentity(new Claim[] { //Criando as claims no corpo
                     new Claim(ClaimTypes.Name, autenticado.Id.ToString()),//User.Identity.Name
                     new Claim("Usuario", autenticado.Nome),
                     new Claim(ClaimTypes.Role, autenticado.Permissao) //User.IsInRole()
@@ -31,7 +31,7 @@ namespace FinanSist.Domain.Services
             };
             // Com tudo parametrizado acima, podemos gerar o token
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return tokenHandler.WriteToken(token); //Retornando o token em string
         }
     }
 }

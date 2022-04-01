@@ -11,7 +11,7 @@ namespace FinanSist.Database.Mappings
     {
         public override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder); //Executando classe da base (BaseMapping).
             entity.Property(a => a.Nome).HasColumnType("varchar(120)").IsRequired();
             entity.Property(a => a.Telefone).HasColumnType("varchar(30)");
             entity.Property(a => a.Email).HasColumnType("varchar(100)").IsRequired();
@@ -20,7 +20,7 @@ namespace FinanSist.Database.Mappings
             entity.Property(a => a.Permissao).HasColumnType("varchar(20)").IsRequired();
 
 
-            #region Comentários
+            #region Comments
             entity.HasComment("Tabela reposável por organizar os usuários");
             entity.Property(b => b.Nome).HasComment("Nome do usuário");
             entity.Property(b => b.Telefone).HasComment("Telefone do usuário");

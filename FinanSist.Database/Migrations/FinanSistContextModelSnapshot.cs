@@ -91,6 +91,38 @@ namespace FinanSist.Database.Migrations
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
                 });
 
+            modelBuilder.Entity("FinanSist.Domain.Entities.Tag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("AlteradoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("CriadoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)")
+                        .HasComment("Descrição da Tag");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(120)")
+                        .HasComment("Nome da Tag");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tag", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
+                });
+
             modelBuilder.Entity("FinanSist.Domain.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")

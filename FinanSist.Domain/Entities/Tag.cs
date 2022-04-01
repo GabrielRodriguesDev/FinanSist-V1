@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FinanSist.Domain.Commands.Entidade;
+using FinanSist.Domain.Commands.Tag;
 
 namespace FinanSist.Domain.Entities
 {
-    public class Entidade : BaseEntity
+    public class Tag : BaseEntity
     {
         #region Property
         public String Nome { get; private set; } = null!;
@@ -14,24 +14,26 @@ namespace FinanSist.Domain.Entities
         public bool Ativo { get; private set; }
         #endregion
 
-        #region  Constructor
-        public Entidade()
+        #region Construtctor
+        public Tag()
         {
 
         }
-        public Entidade(CreateEntidadeCommand cmd)
+
+        public Tag(CreateTagCommand cmd)
         {
             this.Nome = cmd.Nome;
             this.Descricao = cmd.Descricao;
             this.Ativo = true;
         }
 
-        public void Update(UpdateEntidadeCommand cmd)
+        public void Update(UpdateTagCommand cmd)
         {
             this.Nome = cmd.Nome;
             this.Descricao = cmd.Descricao;
             this.Ativo = cmd.Ativo;
         }
+
         #endregion
 
         #region Method

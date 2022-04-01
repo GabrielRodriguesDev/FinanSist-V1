@@ -30,12 +30,4 @@ Utilização de CQRS com .NET, utilização do ORM Entity Framework com transaç
 
 ## Docker
 
-docker build --no-cache -t gabrielrodriguesdev/finansist:latest .
-docker run -d -p 5000:80 --name finansist gabrielrodriguesdev/finansist
-
-docker run -d --name mysql -p 7000:3306 -e MYSQL_ROOT_PASSWORD=fx870 -e bind-address:0.0.0.0 -e MYSQL_ROOT_HOST=% mysql:5.7
-
-{
-"email": "administrador@finansist.com.br",
-"senha": "Fx@870Fx@870"
-}
+docker-compose up -d
