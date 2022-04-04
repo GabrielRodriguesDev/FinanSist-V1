@@ -131,7 +131,8 @@ namespace FinanSist.WebApi.Controllers
                 searchParams.CamposTabela = campos.CamposTabela;
                 searchParams.TextosFiltroTabela = campos.TextosFiltro;
 
-                var result = categoriaRepository.Pesquisar(searchParams);
+                dynamic result = categoriaRepository.Pesquisar(searchParams);
+                if (result.Count == 0) result = new GenericCommandResult(false, "Desculpe, nenhum registro foi localizado.");
 
                 tsc.SetResult(new JsonResult(result)
                 {

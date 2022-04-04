@@ -10,7 +10,7 @@ namespace FinanSist.Domain.Entities
     {
         #region Property
         public String Nome { get; private set; } = null!;
-        public String Descricao { get; private set; } = null!;
+        public String? Descricao { get; private set; } = null!;
         public bool Ativo { get; private set; }
         #endregion
 
@@ -30,13 +30,22 @@ namespace FinanSist.Domain.Entities
         public void Update(UpdateTagCommand cmd)
         {
             this.Nome = cmd.Nome;
-            this.Descricao = cmd.Descricao;
+            this.Descricao = this.validateDescription(cmd.Descricao!);
             this.Ativo = cmd.Ativo;
         }
 
         #endregion
 
         #region Method
+        private string validateDescription(string descricao)
+        {
+            if (descricao == null)
+            {
+                return this!.Descricao!;
+            }
+            return descricao;
+        }
+
         #endregion
     }
 }

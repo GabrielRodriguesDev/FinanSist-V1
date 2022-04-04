@@ -13,7 +13,9 @@ namespace FinanSist.Database.Mappings
         {
             base.OnModelCreating(modelBuilder); //Executando classe da base (BaseMapping).
             entity.Property(a => a.Nome).HasColumnType("varchar(120)").IsRequired();
+            entity.HasIndex(a => a.Nome).HasDatabaseName("UndTagNome").IsUnique();
             entity.Property(a => a.Descricao).HasColumnType("varchar(200)");
+
 
             #region Comments
             entity.Property(b => b.Nome).HasComment("Nome da Tag");

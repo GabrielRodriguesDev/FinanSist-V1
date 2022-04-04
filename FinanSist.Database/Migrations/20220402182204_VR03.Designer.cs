@@ -3,6 +3,7 @@ using System;
 using FinanSist.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanSist.Database.Migrations
 {
     [DbContext(typeof(FinanSistContext))]
-    partial class FinanSistContextModelSnapshot : ModelSnapshot
+    [Migration("20220402182204_VR03")]
+    partial class VR03
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

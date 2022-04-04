@@ -10,7 +10,7 @@ using FinanSist.Domain.Interfaces.Repositories;
 using FinanSist.Domain.Queries;
 using FinanSist.Domain.Queries.Params;
 using FinanSist.Domain.Queries.Result;
-using FinanSist.Domain.Queries.Result.Grupo;
+using FinanSist.Domain.Queries.Result.Categoria;
 
 namespace FinanSist.Database.Repositories
 {

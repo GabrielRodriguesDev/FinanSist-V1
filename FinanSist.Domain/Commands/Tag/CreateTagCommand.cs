@@ -10,7 +10,7 @@ namespace FinanSist.Domain.Commands.Tag
     public class CreateTagCommand : Notificable, ICommand
     {
         public String Nome { get; set; } = null!;
-        public String Descricao { get; set; } = null!;
+        public String? Descricao { get; set; } = null!;
 
         public override void Validate()
         {
@@ -23,10 +23,12 @@ namespace FinanSist.Domain.Commands.Tag
                 if (this.Nome.Length > 120)
                     this.AddNotification("Nome", "Nome deve conter no máximo 120 caracteres.");
             }
-
-            if (this.Descricao.Length > 200)
+            if (this.Descricao != null)
             {
-                this.AddNotification("Descricao", "Descricao deve conter no máximo 200 caracteres.");
+                if (this.Descricao.Length > 200)
+                {
+                    this.AddNotification("Descricao", "Descricao deve conter no máximo 200 caracteres.");
+                }
             }
         }
     }

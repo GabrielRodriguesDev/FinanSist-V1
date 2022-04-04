@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FinanSist.Domain.Attributes;
 
-namespace FinanSist.Domain.Queries.Result.Entidade
+namespace FinanSist.Domain.Queries.Result.Tag
 {
-    public class ListaEntidadeQueryResult
+    public class ListaTagQueryResult
     {
         public Guid Id { get; set; }
         [Search]

@@ -1,20 +1,19 @@
 using System.Reflection;
 using FinanSist.Domain.Attributes;
 using FinanSist.Domain.Queries.Params;
-using FinanSist.Domain.Queries.Result.Entidade;
+using FinanSist.Domain.Queries.Result.Tag;
 
 namespace FinanSist.Domain.Queries
 {
-    public class EntidadeQueries
+    public class TagQueries
     {
         public static ExtracaoCamposParams ExtrairCamposForm()
         {
-            var type = typeof(EntidadeFormQueryResult);
+            var type = typeof(TagFormQueryResult);
             PropertyInfo[] properties = type.GetProperties();
-            String[] camposTabela = properties.Select(campo =>
+            string[] camposTabela = properties.Select(campo =>
             {
                 var value = campo.GetCustomAttributes().Select(atributoCustomizado => atributoCustomizado is IgnoreProperty).FirstOrDefault();
-
                 if (!value)
                 {
                     return campo.Name;
@@ -22,7 +21,7 @@ namespace FinanSist.Domain.Queries
                 return "";
             }).Where(campoNome => !String.IsNullOrEmpty(campoNome)).ToArray();
 
-            return new ExtracaoCamposParams
+            return new ExtracaoCamposParams()
             {
                 CamposTabela = camposTabela
             };
@@ -30,9 +29,9 @@ namespace FinanSist.Domain.Queries
 
         public static ExtracaoCamposParams ExtrairCamposLista()
         {
-            var type = typeof(ListaEntidadeQueryResult);
+            var type = typeof(ListaTagQueryResult);
             PropertyInfo[] properties = type.GetProperties();
-            String[] camposTabela = properties.Select(campo =>
+            string[] camposTabela = properties.Select(campo =>
             {
                 var value = campo.GetCustomAttributes().Select(atributoCustomizado => atributoCustomizado is IgnoreProperty).FirstOrDefault();
 
@@ -41,9 +40,9 @@ namespace FinanSist.Domain.Queries
                     return campo.Name;
                 }
                 return "";
-            }).Where(campoNome => !String.IsNullOrEmpty(campoNome)).ToArray();
+            }).Where(campoName => !String.IsNullOrEmpty(campoName)).ToArray();
 
-            String[] textosFiltros = properties.Select(campo =>
+            string[] textosFiltro = properties.Select(campo =>
             {
                 var value = campo.GetCustomAttributes().Select(atributoCustomizado => atributoCustomizado is Search).FirstOrDefault();
 
@@ -53,17 +52,16 @@ namespace FinanSist.Domain.Queries
                 }
                 return "";
             }).Where(campoNome => !String.IsNullOrEmpty(campoNome)).ToArray();
-
             return new ExtracaoCamposParams()
             {
                 CamposTabela = camposTabela,
-                TextosFiltro = textosFiltros
+                TextosFiltro = textosFiltro
             };
         }
 
-        public static string ExistePorNome()
+        public static String ExistePorNome()
         {
-            return @"Select * from Entidade Where Nome = @Nome";
+            return @"Select * from Tag Where Nome = @Nome";
         }
     }
 }

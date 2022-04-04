@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FinanSist.Domain.Attributes;
 
-namespace FinanSist.Domain.Queries.Result.Grupo
+namespace FinanSist.Domain.Queries.Result.Categoria
 {
     public class ListaCategoriaQueryResult
     {
@@ -13,5 +13,6 @@ namespace FinanSist.Domain.Queries.Result.Grupo
         public String Nome { get; set; } = null!;
         [Search]
         public int Tipo { get; set; }
+        public bool Ativo { get; set; }
     }
 }

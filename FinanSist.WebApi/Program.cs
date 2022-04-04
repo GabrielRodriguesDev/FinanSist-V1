@@ -83,7 +83,6 @@ builder.Services.AddAuthentication(auth =>
                         ValidateIssuer = false, // Definindo que não deve validar o Issuer
                         ValidateAudience = false, // Definindo que não deve validar o Audience
                         ClockSkew = TimeSpan.Zero //Definindo a "inclinação do relógio"
-
                     };
                 });
 #endregion

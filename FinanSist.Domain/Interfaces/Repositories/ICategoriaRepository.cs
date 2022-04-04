@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using FinanSist.Domain.Entities;
 using FinanSist.Domain.Queries.Params;
 using FinanSist.Domain.Queries.Result;
-using FinanSist.Domain.Queries.Result.Grupo;
+using FinanSist.Domain.Queries.Result.Categoria;
 
 namespace FinanSist.Domain.Interfaces.Repositories
 {

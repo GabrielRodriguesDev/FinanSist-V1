@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FinanSist.Domain.Queries.Result
+namespace FinanSist.Domain.Queries.Result.Tag
 {
-    public class CategoriaFormQueryResult
+    public class TagFormQueryResult
     {
-
         public Guid Id { get; set; }
         public String Nome { get; set; } = null!;
-
-        public int Tipo { get; set; }
+        public String Descricao { get; set; } = null!;
+        public bool Ativo { get; set; }
     }
 }
