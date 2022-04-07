@@ -126,9 +126,13 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.InjectStylesheet("/swagger-ui/SwaggerDark.css");
         options.RoutePrefix = string.Empty;
     });
 }
+
+app.UseStaticFiles();
+
 
 app.UseHttpsRedirection();
 

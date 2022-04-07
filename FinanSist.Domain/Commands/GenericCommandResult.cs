@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FinanSist.Domain.Interfaces.Commands;
 
-namespace FinanSist.Domain.Commands.Usuario
+namespace FinanSist.Domain.Commands
 {
     public class GenericCommandResult : ICommand
     {

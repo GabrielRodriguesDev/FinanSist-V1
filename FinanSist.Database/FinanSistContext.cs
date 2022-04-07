@@ -14,7 +14,9 @@ namespace FinanSist.Database
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Entidade> Entidades { get; set; }
-        public DbSet<Tag> Tag { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<Despesa> Despesas { get; set; }
         #endregion
 
         #region Constructor

@@ -4,7 +4,7 @@
 
 namespace FinanSist.Database.Migrations
 {
-    public partial class VR02INSERTS : Migration
+    public partial class VR02 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

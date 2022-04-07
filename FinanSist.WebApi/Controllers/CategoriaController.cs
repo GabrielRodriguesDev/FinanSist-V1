@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FinanSist.Domain.Commands.Categorias;
-using FinanSist.Domain.Commands.Usuario;
 using FinanSist.Domain.Interfaces.Repositories;
 using FinanSist.Domain.Interfaces.Services;
 using FinanSist.Domain.Queries;
 using FinanSist.Domain.Queries.Params;
+using FinanSist.Domain.Commands;
 
 namespace FinanSist.WebApi.Controllers
 {
@@ -15,13 +15,13 @@ namespace FinanSist.WebApi.Controllers
     {
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create([FromServices] ICategoriaService categoriaService, [FromBody] CreateCategoriaCommand cmd)
+        public async Task<IActionResult> Create([FromServices] ICategoriaService categoriaService, [FromBody] CreateCategoriaCommand createCategoriaCommand)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
 
             try
             {
-                var result = categoriaService.Create(cmd);
+                var result = categoriaService.Create(createCategoriaCommand);
                 tsc.SetResult(new JsonResult(result)
                 {
                     StatusCode = 200
@@ -39,12 +39,12 @@ namespace FinanSist.WebApi.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> Update([FromServices] ICategoriaService categoriaService, [FromBody] UpdateCategoriaCommand cmd)
+        public async Task<IActionResult> Update([FromServices] ICategoriaService categoriaService, [FromBody] UpdateCategoriaCommand updateCategoriaCommand)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
             try
             {
-                var result = categoriaService.Update(cmd);
+                var result = categoriaService.Update(updateCategoriaCommand);
                 tsc.SetResult(new JsonResult(result)
                 {
                     StatusCode = 200

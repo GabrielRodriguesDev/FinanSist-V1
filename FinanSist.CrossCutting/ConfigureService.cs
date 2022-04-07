@@ -19,6 +19,7 @@ namespace FinanSist.CrossCutting
             services.AddScoped<ICategoriaService, CategoriaService>();
             services.AddScoped<IEntidadeService, EntidadeService>();
             services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IDespesaService, DespesaService>();
 
             services.AddScoped<IEmailService, EmailService>();
         }

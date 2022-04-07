@@ -1,6 +1,5 @@
+using FinanSist.Domain.Commands;
 using FinanSist.Domain.Commands.Autentica;
-using FinanSist.Domain.Commands.Email;
-using FinanSist.Domain.Commands.Usuario;
 using FinanSist.Domain.Interfaces.Infrastructure;
 using FinanSist.Domain.Interfaces.Repositories;
 using FinanSist.Domain.Interfaces.Services;

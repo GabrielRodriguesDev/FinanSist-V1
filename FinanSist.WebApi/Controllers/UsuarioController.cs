@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FinanSist.Domain.Commands.Usuario;
@@ -9,6 +5,7 @@ using FinanSist.Domain.Interfaces.Repositories;
 using FinanSist.Domain.Interfaces.Services;
 using FinanSist.Domain.Queries;
 using FinanSist.Domain.Queries.Params;
+using FinanSist.Domain.Commands;
 
 namespace FinanSist.WebApi.Controllers
 {

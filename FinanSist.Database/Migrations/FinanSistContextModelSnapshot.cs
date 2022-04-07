@@ -53,6 +53,59 @@ namespace FinanSist.Database.Migrations
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
                 });
 
+            modelBuilder.Entity("FinanSist.Domain.Entities.Despesa", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("AlteradoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("CategoriaId")
+                        .HasColumnType("char(36)")
+                        .HasComment("Identificador da categoria.");
+
+                    b.Property<DateTime?>("CriadoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DataPagamento")
+                        .HasColumnType("datetime(6)")
+                        .HasComment("Data de pagamento da Despesa.");
+
+                    b.Property<DateTime?>("DataPrevisao")
+                        .HasColumnType("datetime(6)")
+                        .HasComment("Data de previsão de pagamento da Despesa.");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("varchar(200)")
+                        .HasComment("Descrição da Despesa.");
+
+                    b.Property<Guid>("EntidadeId")
+                        .HasColumnType("char(36)")
+                        .HasComment("Identificador da entidade.");
+
+                    b.Property<string>("Observacao")
+                        .HasColumnType("varchar(200)")
+                        .HasComment("Observações da Despesa.");
+
+                    b.Property<Guid?>("TagId")
+                        .HasColumnType("char(36)")
+                        .HasComment("Identificador da tag.");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaId");
+
+                    b.HasIndex("EntidadeId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("Despesa", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
+                });
+
             modelBuilder.Entity("FinanSist.Domain.Entities.Entidade", b =>
                 {
                     b.Property<Guid>("Id")
@@ -185,6 +238,29 @@ namespace FinanSist.Database.Migrations
                     b.HasComment("Tabela reposável por organizar os usuários");
 
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
+                });
+
+            modelBuilder.Entity("FinanSist.Domain.Entities.Despesa", b =>
+                {
+                    b.HasOne("FinanSist.Domain.Entities.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaId");
+
+                    b.HasOne("FinanSist.Domain.Entities.Entidade", "Entidade")
+                        .WithMany()
+                        .HasForeignKey("EntidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinanSist.Domain.Entities.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId");
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Entidade");
+
+                    b.Navigation("Tag");
                 });
 #pragma warning restore 612, 618
         }

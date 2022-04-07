@@ -1,0 +1,27 @@
+-- SCRIPT INSERT --
+INSERT INTO `categoria` (`Id`, `Nome`, `Tipo`, `Ativo`, `CriadoEm`, `AlteradoEm`) VALUES ('3e05a3cc-0ab4-4d64-be73-953cb2edcd41', 'Categoria TST 1', '0', 1, '2022-04-05 14:35:11.690321', NULL);
+
+
+INSERT INTO `entidade` (`Id`, `Nome`, `Descricao`, `Ativo`, `CriadoEm`, `AlteradoEm`) VALUES ('fae0bce1-d829-4947-ab94-862073e7323a', 'Entidade TST  1', 'Entidade de teste.', 1, '2022-04-05 14:36:43.828880', NULL);
+
+
+INSERT INTO `tag` (`Id`, `Nome`, `Descricao`, `Ativo`, `CriadoEm`, `AlteradoEm`) VALUES ('164e063a-8807-47e0-bf4b-89409cad43ad', 'Tag TST 1', 'Tag de teste.', 1, '2022-04-05 14:37:06.336508', NULL);
+
+
+-- Create Despesa --
+{
+  "descricao": "Despesa TST 1",
+ "dataPagamento": null,
+  "dataPrevisao": null,
+  "entidadeId": "fae0bce1-d829-4947-ab94-862073e7323a",
+  "categoriaId": "3e05a3cc-0ab4-4d64-be73-953cb2edcd41",
+  "tagId": "164e063a-8807-47e0-bf4b-89409cad43ad",
+  "observacao": "Despesa de teste."
+}
+
+
+-- User Auth --
+{
+  "email": "administrador@finansist.com.br",
+  "senha": "Fx@870Fx@870"
+}

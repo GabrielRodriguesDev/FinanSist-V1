@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FinanSist.Domain.Commands.Entidade;
-using FinanSist.Domain.Commands.Usuario;
 using FinanSist.Domain.Interfaces.Services;
 using FinanSist.Domain.Interfaces.Repositories;
 using FinanSist.Domain.Queries.Params;
 using FinanSist.Domain.Queries;
+using FinanSist.Domain.Commands;
 
 namespace FinanSist.WebApi.Controllers
 {
@@ -19,7 +15,7 @@ namespace FinanSist.WebApi.Controllers
     {
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create([FromServices] IEntidadeService entidadeService, CreateEntidadeCommand createEntidadeCommand)
+        public async Task<IActionResult> Create([FromServices] IEntidadeService entidadeService, [FromBody] CreateEntidadeCommand createEntidadeCommand)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
             try

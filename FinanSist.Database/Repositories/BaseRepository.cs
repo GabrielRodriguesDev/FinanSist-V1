@@ -73,6 +73,12 @@ namespace FinanSist.Database.Repositories
             entity.setAlteradoEm();
             _dbSet.Update(entity);
         }
+
+
+        public dynamic? RetornaCampo(Guid? id, String tabela, String campo)
+        {
+            return _connection.Query($"Select {campo} from {tabela} where Id = @Id", new { Id = id }, _uow.CurrentTransaction()).FirstOrDefault();
+        }
         #endregion
     }
 }

@@ -15,5 +15,15 @@ namespace FinanSist.Domain.Helpers
 
             return Regex.IsMatch(strIn, @"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
         }
+
+
+        public static Guid? validateGuid(Guid? currentId, Guid? newId)
+        {
+            if (newId == null)
+            {
+                return currentId;
+            }
+            return newId;
+        }
     }
 }
