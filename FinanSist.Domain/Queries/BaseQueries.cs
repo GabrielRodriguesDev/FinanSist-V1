@@ -56,18 +56,21 @@ namespace FinanSist.Domain.Queries
             {
                 sql.AppendLine($@"and Ativo = @Ativo");
             }
-            if (searchParams.TextosFiltroTabela != null && searchParams.TextosFiltroTabela.Count() > 0)
+            if (!String.IsNullOrEmpty(searchParams.Texto))
             {
-                StringBuilder filtro = new StringBuilder();
-                foreach (var item in searchParams.TextosFiltroTabela)
+                if (searchParams.TextosFiltroTabela != null && searchParams.TextosFiltroTabela.Count() > 0)
                 {
-                    if (filtro.Length > 0)
+                    StringBuilder filtro = new StringBuilder();
+                    foreach (var item in searchParams.TextosFiltroTabela)
                     {
-                        filtro.Append(" or ");
+                        if (filtro.Length > 0)
+                        {
+                            filtro.Append(" or ");
+                        }
+                        filtro.AppendLine($"{item} LIKE CONCAT('%', @Texto, '%')");
                     }
-                    filtro.AppendLine($"{item} LIKE CONCAT('%', @Texto, '%')");
+                    sql.AppendLine($" and {filtro.ToString()}");
                 }
-                sql.AppendLine($" and {filtro.ToString()}");
             }
             return sql.ToString();
         }

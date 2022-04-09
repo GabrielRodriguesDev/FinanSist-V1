@@ -40,20 +40,5 @@ namespace FinanSist.Database.Repositories
         {
             return _connection.Query<ListaCategoriaQueryResult>(BaseQueries.Pesquisar(searchParams), searchParams);
         }
-
-        bool ICategoriaRepository.ExistePorNomeETipo(string nome, int? tipo)
-        {
-            throw new NotImplementedException();
-        }
-
-        CategoriaFormQueryResult? ICategoriaRepository.PesquisarForm(SearchFormParams searchFormParams)
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerable<ListaCategoriaQueryResult> ICategoriaRepository.Pesquisar(SearchParams searchParams)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

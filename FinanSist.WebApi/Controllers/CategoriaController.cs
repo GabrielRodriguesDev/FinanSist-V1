@@ -121,12 +121,17 @@ namespace FinanSist.WebApi.Controllers
         [HttpPost]
         [Route("pesquisar")]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> Pesquisar([FromServices] ICategoriaRepository categoriaRepository, [FromBody] SearchParams searchParams)
+        public async Task<IActionResult> Pesquisar([FromServices] ICategoriaRepository categoriaRepository, [FromBody] SearchParams? searchParams)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
             try
             {
+
                 var campos = CategoriaQueries.ExtrairCamposLista();
+                if (searchParams == null)
+                {
+                    searchParams = new SearchParams();
+                }
                 searchParams.NomeTabela = "Categoria";
                 searchParams.CamposTabela = campos.CamposTabela;
                 searchParams.TextosFiltroTabela = campos.TextosFiltro;

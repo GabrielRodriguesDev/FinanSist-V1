@@ -11,5 +11,7 @@ namespace FinanSist.Domain.Interfaces.Repositories
     public interface IDespesaRepository : IBaseRepository<Despesa>
     {
         DespesaFormQueryResult? PesquisarForm(SearchFormParams searchFormParams);
+
+        IEnumerable<ListaDespesaQueryResult> Pesquisar(SearchParams searchParams);
     }
 }

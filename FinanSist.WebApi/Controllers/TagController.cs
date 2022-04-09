@@ -117,13 +117,17 @@ namespace FinanSist.WebApi.Controllers
         [HttpPost]
         [Authorize]
         [Route("pesquisar")]
-        public async Task<IActionResult> Pesquisar([FromServices] ITagRepository tagRepository, [FromBody] SearchParams searchParams)
+        public async Task<IActionResult> Pesquisar([FromServices] ITagRepository tagRepository, [FromBody] SearchParams? searchParams)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
             try
             {
 
                 var campos = TagQueries.ExtrairCamposLista();
+                if (searchParams == null)
+                {
+                    searchParams = new SearchParams();
+                }
                 searchParams.NomeTabela = "Tag";
                 searchParams.CamposTabela = campos.CamposTabela;
                 searchParams.TextosFiltroTabela = campos.TextosFiltro;

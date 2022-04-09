@@ -25,3 +25,9 @@ INSERT INTO `tag` (`Id`, `Nome`, `Descricao`, `Ativo`, `CriadoEm`, `AlteradoEm`)
   "email": "administrador@finansist.com.br",
   "senha": "Fx@870Fx@870"
 }
+
+
+
+
+
+

@@ -31,14 +31,11 @@ namespace FinanSist.Infra.Services
             mail.BodyEncoding = System.Text.Encoding.UTF8;
             mail.SubjectEncoding = System.Text.Encoding.UTF8;
             mail.Priority = MailPriority.High;
-
-
             //envia a mensagem
             SmtpClient smtp = new SmtpClient("", 587);
             smtp.Credentials = new NetworkCredential("", "");
             smtp.EnableSsl = false;
             smtp.Send(mail);
-
             return true;
         }
     }

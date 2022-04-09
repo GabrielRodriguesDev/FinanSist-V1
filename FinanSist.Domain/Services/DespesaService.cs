@@ -62,6 +62,7 @@ namespace FinanSist.Domain.Services
             return new GenericCommandResult(true, "Despesa salva com sucesso!", new
             {
                 Id = despesa.Id,
+                Descricao = despesa.Descricao,
                 DataPagamento = despesa.DataPagamento,
                 DataPrevisao = despesa.DataPrevisao,
                 EntidadeId = despesa.EntidadeId,

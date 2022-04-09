@@ -118,17 +118,22 @@ namespace FinanSist.WebApi.Controllers
         [HttpPost]
         [Route("Pesquisar")]
         [Authorize]
-        public async Task<IActionResult> Pesquisar([FromServices] IEntidadeRepository repository, [FromBody] SearchParams searchParams)
+        public async Task<IActionResult> Pesquisar([FromServices] IEntidadeRepository repository, [FromBody] SearchParams? searchParams)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
             try
             {
+                var campos = EntidadeQueries.ExtrairCamposLista();
+                if (searchParams == null)
+                {
+                    searchParams = new SearchParams();
+                }
                 searchParams.NomeTabela = "Entidade";
-                searchParams.CamposTabela = EntidadeQueries.ExtrairCamposLista().CamposTabela;
-                searchParams.TextosFiltroTabela = EntidadeQueries.ExtrairCamposLista().TextosFiltro;
+                searchParams.CamposTabela = campos.CamposTabela;
+                searchParams.TextosFiltroTabela = campos.TextosFiltro;
 
                 dynamic result = repository.Pesquisar(searchParams);
-                if (result.Count) result = new GenericCommandResult(false, "Desculpe, nenhum registro foi localizado.");
+                if (result.Count == 0) result = new GenericCommandResult(false, "Desculpe, nenhum registro foi localizado.");
 
                 tsc.SetResult(new JsonResult(result)
                 {

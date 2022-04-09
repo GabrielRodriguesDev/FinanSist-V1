@@ -22,5 +22,10 @@ namespace FinanSist.Database.Repositories
         {
             return _connection.Query<DespesaFormQueryResult>(BaseQueries.PesquisarForm(searchFormParams), searchFormParams).FirstOrDefault();
         }
+
+        public IEnumerable<ListaDespesaQueryResult> Pesquisar(SearchParams searchParams)
+        {
+            return _connection.Query<ListaDespesaQueryResult>(DespesaQueries.Pesquisar(searchParams), searchParams);
+        }
     }
 }

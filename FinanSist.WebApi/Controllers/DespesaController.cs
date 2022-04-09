@@ -113,5 +113,41 @@ namespace FinanSist.WebApi.Controllers
             }
             return await tsc.Task;
         }
+
+        [HttpPost]
+        [Authorize]
+        [Route("pesquisar")]
+        public async Task<IActionResult> Pesquisar([FromServices] IDespesaRepository despesaRepository, [FromBody] SearchParams? searchParams)
+        {
+            var tsc = new TaskCompletionSource<IActionResult>();
+            try
+            {
+                var campos = DespesaQueries.ExtrairCamposLista();
+                if (searchParams == null)
+                {
+                    searchParams = new SearchParams();
+                }
+                searchParams.NomeTabela = "Despesa";
+                searchParams.CamposTabela = campos.CamposTabela;
+                searchParams.TextosFiltroTabela = campos.TextosFiltro;
+
+                dynamic result = despesaRepository.Pesquisar(searchParams);
+                if (result.Count == 0) result = new GenericCommandResult(false, "Desculpe, nenhum registro foi localizado.");
+
+                tsc.SetResult(new JsonResult(result)
+                {
+                    StatusCode = 200
+                });
+            }
+            catch (Exception e)
+            {
+
+                tsc.SetResult(new JsonResult(new GenericCommandResult(false, "(E0028) - " + e.Message))
+                {
+                    StatusCode = 500
+                });
+            }
+            return await tsc.Task;
+        }
     }
 }
