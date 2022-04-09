@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanSist.Database.Migrations
 {
     [DbContext(typeof(FinanSistContext))]
-    [Migration("20220405021555_VR01")]
+    [Migration("20220409151415_VR01")]
     partial class VR01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,6 +68,9 @@ namespace FinanSist.Database.Migrations
                         .HasColumnType("char(36)")
                         .HasComment("Identificador da categoria.");
 
+                    b.Property<int>("CodigoInterno")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("CriadoEm")
                         .HasColumnType("datetime(6)");
 
@@ -83,7 +86,7 @@ namespace FinanSist.Database.Migrations
                         .HasColumnType("varchar(200)")
                         .HasComment("Descrição da Despesa.");
 
-                    b.Property<Guid>("EntidadeId")
+                    b.Property<Guid?>("EntidadeId")
                         .HasColumnType("char(36)")
                         .HasComment("Identificador da entidade.");
 
@@ -142,6 +145,36 @@ namespace FinanSist.Database.Migrations
                     b.ToTable("Entidade", (string)null);
 
                     b.HasComment("Tabela reposável pelos registros das entidades");
+
+                    MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
+                });
+
+            modelBuilder.Entity("FinanSist.Domain.Entities.Sequencia", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("AlteradoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("CriadoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)")
+                        .HasComment("Nome da sequência");
+
+                    b.Property<int>("Numero")
+                        .HasColumnType("int")
+                        .HasComment("Número da sequência");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sequencia", (string)null);
+
+                    b.HasComment("Tabela responsável pelo controle de contadores (sequência)");
 
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
                 });
@@ -250,9 +283,7 @@ namespace FinanSist.Database.Migrations
 
                     b.HasOne("FinanSist.Domain.Entities.Entidade", "Entidade")
                         .WithMany()
-                        .HasForeignKey("EntidadeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EntidadeId");
 
                     b.HasOne("FinanSist.Domain.Entities.Tag", "Tag")
                         .WithMany()

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FinanSist.Domain.Commands;
 using FinanSist.Domain.Commands.Despesa;
 using FinanSist.Domain.Entities;
+using FinanSist.Domain.Interfaces.Helpers;
 using FinanSist.Domain.Interfaces.Infrastructure;
 using FinanSist.Domain.Interfaces.Repositories;
 using FinanSist.Domain.Interfaces.Services;
@@ -15,12 +16,15 @@ namespace FinanSist.Domain.Services
     {
         private IDespesaRepository _despesaRepository;
 
+        private ISequenciaHelper _sequenciaHelper;
+
         private IUnitOfWork _uow;
 
-        public DespesaService(IDespesaRepository despesaRepository, IUnitOfWork uow)
+        public DespesaService(IDespesaRepository despesaRepository, IUnitOfWork uow, ISequenciaHelper sequenciaHelper)
         {
             this._despesaRepository = despesaRepository;
             this._uow = uow;
+            this._sequenciaHelper = sequenciaHelper;
         }
 
         public GenericCommandResult Create(CreateDespesaCommand createDespesaCommand)
@@ -45,8 +49,9 @@ namespace FinanSist.Domain.Services
                 if (tagdb == null) return new GenericCommandResult(false, "Desculpe, tag não localizada");
             }
 
-
+            var codigoInterno = _sequenciaHelper.ProximoNumero(typeof(Despesa).Name);
             Despesa despesa = new Despesa(createDespesaCommand);
+            despesa.setCodigoInterno(codigoInterno);
 
             _uow.BeginTransaction();
             try
@@ -62,6 +67,7 @@ namespace FinanSist.Domain.Services
             return new GenericCommandResult(true, "Despesa salva com sucesso!", new
             {
                 Id = despesa.Id,
+                CodigoInterno = despesa.CodigoInterno,
                 Descricao = despesa.Descricao,
                 DataPagamento = despesa.DataPagamento,
                 DataPrevisao = despesa.DataPrevisao,

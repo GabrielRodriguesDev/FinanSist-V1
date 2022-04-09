@@ -21,6 +21,7 @@ namespace FinanSist.Domain.Entities
         public Guid? TagId { get; private set; }
         public Tag? Tag { get; private set; }
         public String? Observacao { get; private set; }
+        public int CodigoInterno { get; private set; }
         #endregion
 
         #region Constructor
@@ -49,6 +50,10 @@ namespace FinanSist.Domain.Entities
         #endregion
 
         #region Method
+        public void setCodigoInterno(int value)
+        {
+            this.CodigoInterno = value;
+        }
         #endregion
 
     }

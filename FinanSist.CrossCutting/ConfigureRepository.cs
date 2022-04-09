@@ -4,6 +4,8 @@ using FinanSist.Database;
 using FinanSist.Database.Repositories;
 using FinanSist.Domain.Interfaces.Infrastructure;
 using FinanSist.Domain.Interfaces.Repositories;
+using FinanSist.Domain.Interfaces.Helpers;
+using FinanSist.Database.Helpers;
 
 namespace FinanSist.CrossCutting;
 public class ConfigureRepository
@@ -23,5 +25,7 @@ public class ConfigureRepository
         services.AddScoped<IEntidadeRepository, EntidadeRepository>();
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IDespesaRepository, DespesaRepository>();
+
+        services.AddScoped<ISequenciaHelper, SequenciaHelper>();
     }
 }

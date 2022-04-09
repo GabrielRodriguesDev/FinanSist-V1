@@ -53,6 +53,24 @@ namespace FinanSist.Database.Migrations
                 .Annotation("MySql:CharSet", "utf8");
 
             migrationBuilder.CreateTable(
+                name: "Sequencia",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Nome = table.Column<string>(type: "varchar(100)", nullable: false, comment: "Nome da sequência")
+                        .Annotation("MySql:CharSet", "utf8"),
+                    Numero = table.Column<int>(type: "int", nullable: false, comment: "Número da sequência"),
+                    CriadoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    AlteradoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sequencia", x => x.Id);
+                },
+                comment: "Tabela responsável pelo controle de contadores (sequência)")
+                .Annotation("MySql:CharSet", "utf8");
+
+            migrationBuilder.CreateTable(
                 name: "Tag",
                 columns: table => new
                 {
@@ -110,11 +128,12 @@ namespace FinanSist.Database.Migrations
                         .Annotation("MySql:CharSet", "utf8"),
                     DataPagamento = table.Column<DateTime>(type: "datetime(6)", nullable: true, comment: "Data de pagamento da Despesa."),
                     DataPrevisao = table.Column<DateTime>(type: "datetime(6)", nullable: true, comment: "Data de previsão de pagamento da Despesa."),
-                    EntidadeId = table.Column<Guid>(type: "char(36)", nullable: false, comment: "Identificador da entidade.", collation: "ascii_general_ci"),
+                    EntidadeId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da entidade.", collation: "ascii_general_ci"),
                     CategoriaId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da categoria.", collation: "ascii_general_ci"),
                     TagId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da tag.", collation: "ascii_general_ci"),
                     Observacao = table.Column<string>(type: "varchar(200)", nullable: true, comment: "Observações da Despesa.")
                         .Annotation("MySql:CharSet", "utf8"),
+                    CodigoInterno = table.Column<int>(type: "int", nullable: false),
                     CriadoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     AlteradoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
@@ -130,8 +149,7 @@ namespace FinanSist.Database.Migrations
                         name: "FK_Despesa_Entidade_EntidadeId",
                         column: x => x.EntidadeId,
                         principalTable: "Entidade",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Despesa_Tag_TagId",
                         column: x => x.TagId,
@@ -178,6 +196,9 @@ namespace FinanSist.Database.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Despesa");
+
+            migrationBuilder.DropTable(
+                name: "Sequencia");
 
             migrationBuilder.DropTable(
                 name: "Usuario");
