@@ -87,7 +87,7 @@ namespace FinanSist.Domain.Services
                 return new GenericCommandResult(false, "Desculpe, não foi possivel alterar senha");
 
             if (usuario.TokenSenhaValidade < DateTime.Now)
-                return new GenericCommandResult(false, "Desculpe, não foi possivel alterar senha");
+                return new GenericCommandResult(false, "Desculpe, token inválido, gere um novo token.");
 
             usuario.AlterarSenha(cmd.NovaSenha);
             _uow.BeginTransaction();

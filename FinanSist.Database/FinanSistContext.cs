@@ -17,6 +17,8 @@ namespace FinanSist.Database
         public DbSet<Tag> Tags { get; set; }
 
         public DbSet<Despesa> Despesas { get; set; }
+
+        public DbSet<DespesaTag> DespesaTags { get; set; }
         #endregion
 
         #region Constructor

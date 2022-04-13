@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FinanSist.Domain.Attributes;
 
 namespace FinanSist.Domain.Queries.Result.Despesa
 {
@@ -12,8 +13,11 @@ namespace FinanSist.Domain.Queries.Result.Despesa
         public DateTime? DataPagamento { get; set; }
         public DateTime? DataPrevisao { get; set; }
         public Guid EntidadeId { get; set; }
-        public Guid CategoriaId { get; set; }
-        public Guid TagId { get; set; }
+        public Guid? CategoriaId { get; set; }
+        [IgnoreProperty]
         public String Observacao { get; set; } = null!;
+        [IgnoreProperty]
+        public List<String> Tags { get; set; } = null!;
+
     }
 }

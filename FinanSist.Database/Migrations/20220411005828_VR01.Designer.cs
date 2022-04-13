@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanSist.Database.Migrations
 {
     [DbContext(typeof(FinanSistContext))]
-    [Migration("20220409151434_VR02")]
-    partial class VR02
+    [Migration("20220411005828_VR01")]
+    partial class VR01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -94,19 +94,48 @@ namespace FinanSist.Database.Migrations
                         .HasColumnType("varchar(200)")
                         .HasComment("Observações da Despesa.");
 
-                    b.Property<Guid?>("TagId")
-                        .HasColumnType("char(36)")
-                        .HasComment("Identificador da tag.");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
 
                     b.HasIndex("EntidadeId");
 
+                    b.ToTable("Despesa", (string)null);
+
+                    MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
+                });
+
+            modelBuilder.Entity("FinanSist.Domain.Entities.DespesaTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("AlteradoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("CriadoEm")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("DespesaId")
+                        .HasColumnType("char(36)")
+                        .HasComment("Identificador da despesa");
+
+                    b.Property<Guid?>("TagId")
+                        .HasColumnType("char(36)")
+                        .HasComment("Identificador da tag");
+
+                    b.HasKey("Id");
+
                     b.HasIndex("TagId");
 
-                    b.ToTable("Despesa", (string)null);
+                    b.HasIndex("DespesaId", "TagId")
+                        .IsUnique()
+                        .HasDatabaseName("unq1_DespesaTag");
+
+                    b.ToTable("DespesaTag", (string)null);
+
+                    b.HasComment("Tabela responsável por gerir a relação de Depesas e Tags");
 
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
                 });
@@ -127,7 +156,6 @@ namespace FinanSist.Database.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Descricao")
-                        .IsRequired()
                         .HasColumnType("varchar(200)")
                         .HasComment("Descrição da entidade");
 
@@ -171,6 +199,10 @@ namespace FinanSist.Database.Migrations
                         .HasComment("Número da sequência");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Nome")
+                        .IsUnique()
+                        .HasDatabaseName("UnqSequenciaNome");
 
                     b.ToTable("Sequencia", (string)null);
 
@@ -285,13 +317,22 @@ namespace FinanSist.Database.Migrations
                         .WithMany()
                         .HasForeignKey("EntidadeId");
 
+                    b.Navigation("Categoria");
+
+                    b.Navigation("Entidade");
+                });
+
+            modelBuilder.Entity("FinanSist.Domain.Entities.DespesaTag", b =>
+                {
+                    b.HasOne("FinanSist.Domain.Entities.Despesa", "Despesa")
+                        .WithMany()
+                        .HasForeignKey("DespesaId");
+
                     b.HasOne("FinanSist.Domain.Entities.Tag", "Tag")
                         .WithMany()
                         .HasForeignKey("TagId");
 
-                    b.Navigation("Categoria");
-
-                    b.Navigation("Entidade");
+                    b.Navigation("Despesa");
 
                     b.Navigation("Tag");
                 });

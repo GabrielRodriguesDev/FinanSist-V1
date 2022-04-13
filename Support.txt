@@ -15,7 +15,7 @@ INSERT INTO `tag` (`Id`, `Nome`, `Descricao`, `Ativo`, `CriadoEm`, `AlteradoEm`)
   "dataPrevisao": null,
   "entidadeId": "fae0bce1-d829-4947-ab94-862073e7323a",
   "categoriaId": "3e05a3cc-0ab4-4d64-be73-953cb2edcd41",
-  "tagId": "164e063a-8807-47e0-bf4b-89409cad43ad",
+  
   "observacao": "Despesa de teste."
 }
 
@@ -27,6 +27,10 @@ INSERT INTO `tag` (`Id`, `Nome`, `Descricao`, `Ativo`, `CriadoEm`, `AlteradoEm`)
 }
 
 
+
+-- SCRIPT Migration --
+migrationBuilder.Sql("INSERT INTO `Usuario` (`Id`, `Nome`, `Email`, `Telefone`, `Senha`, `TokenSenha`, `TokenSenhaValidade`, `Ativo`, `ExigirNovaSenha`, `CriadoEm`, `AlteradoEm`, `Permissao`) VALUES ('fc6c1e16-d82d-4c82-9662-f9637bdc06fd', 'UserSystem', 'user@finansist.com.br', '1111111111', 'AB9SN9i1IdIp1dVdYsQ3jPOzdgWfSnMw44ZjCrx0M+ZREdzybv8FkzUFhZnwXdhAaA==', NULL, NULL, 1, 0, CURRENT_TIMESTAMP(), NULL, 'Padrao');");
+migrationBuilder.Sql("INSERT INTO `Usuario` (`Id`, `Nome`, `Email`, `Telefone`, `Senha`, `TokenSenha`, `TokenSenhaValidade`, `Ativo`, `ExigirNovaSenha`, `CriadoEm`, `AlteradoEm`, `Permissao`) VALUES ('4a58865e-eabb-403e-b9ab-e4017fa9b2bd', 'Administrador', 'administrador@finansist.com.br', '1111111111', 'AHdb916qt4eaqHXbPsFjhzNmnx4eYnnPM1s6qN0nAdxPZULba7nKtSw9jqwyXeWGVw==', NULL, NULL, 1, 0, CURRENT_TIMESTAMP(), NULL, 'Administrador');");
 
 
 

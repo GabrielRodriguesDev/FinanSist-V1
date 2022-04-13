@@ -10,7 +10,7 @@ namespace FinanSist.Domain.Entities
     {
         #region Property
         public String Nome { get; private set; } = null!;
-        public String Descricao { get; private set; } = null!;
+        public String? Descricao { get; private set; } = null!;
         public bool Ativo { get; private set; }
         #endregion
 

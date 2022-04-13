@@ -39,7 +39,7 @@ namespace FinanSist.Database.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Nome = table.Column<string>(type: "varchar(120)", nullable: false, comment: "Nome da entidade")
                         .Annotation("MySql:CharSet", "utf8"),
-                    Descricao = table.Column<string>(type: "varchar(200)", nullable: false, comment: "Descrição da entidade")
+                    Descricao = table.Column<string>(type: "varchar(200)", nullable: true, comment: "Descrição da entidade")
                         .Annotation("MySql:CharSet", "utf8"),
                     Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CriadoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true),
@@ -130,7 +130,6 @@ namespace FinanSist.Database.Migrations
                     DataPrevisao = table.Column<DateTime>(type: "datetime(6)", nullable: true, comment: "Data de previsão de pagamento da Despesa."),
                     EntidadeId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da entidade.", collation: "ascii_general_ci"),
                     CategoriaId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da categoria.", collation: "ascii_general_ci"),
-                    TagId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da tag.", collation: "ascii_general_ci"),
                     Observacao = table.Column<string>(type: "varchar(200)", nullable: true, comment: "Observações da Despesa.")
                         .Annotation("MySql:CharSet", "utf8"),
                     CodigoInterno = table.Column<int>(type: "int", nullable: false),
@@ -150,12 +149,34 @@ namespace FinanSist.Database.Migrations
                         column: x => x.EntidadeId,
                         principalTable: "Entidade",
                         principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8");
+
+            migrationBuilder.CreateTable(
+                name: "DespesaTag",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DespesaId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da despesa", collation: "ascii_general_ci"),
+                    TagId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da tag", collation: "ascii_general_ci"),
+                    CriadoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    AlteradoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DespesaTag", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Despesa_Tag_TagId",
+                        name: "FK_DespesaTag_Despesa_DespesaId",
+                        column: x => x.DespesaId,
+                        principalTable: "Despesa",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DespesaTag_Tag_TagId",
                         column: x => x.TagId,
                         principalTable: "Tag",
                         principalColumn: "Id");
-                })
+                },
+                comment: "Tabela responsável por gerir a relação de Depesas e Tags")
                 .Annotation("MySql:CharSet", "utf8");
 
             migrationBuilder.CreateIndex(
@@ -169,13 +190,25 @@ namespace FinanSist.Database.Migrations
                 column: "EntidadeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Despesa_TagId",
-                table: "Despesa",
+                name: "IX_DespesaTag_TagId",
+                table: "DespesaTag",
                 column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "unq1_DespesaTag",
+                table: "DespesaTag",
+                columns: new[] { "DespesaId", "TagId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UnqEntidadeNome",
                 table: "Entidade",
+                column: "Nome",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UnqSequenciaNome",
+                table: "Sequencia",
                 column: "Nome",
                 unique: true);
 
@@ -195,7 +228,7 @@ namespace FinanSist.Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Despesa");
+                name: "DespesaTag");
 
             migrationBuilder.DropTable(
                 name: "Sequencia");
@@ -204,13 +237,16 @@ namespace FinanSist.Database.Migrations
                 name: "Usuario");
 
             migrationBuilder.DropTable(
+                name: "Despesa");
+
+            migrationBuilder.DropTable(
+                name: "Tag");
+
+            migrationBuilder.DropTable(
                 name: "Categoria");
 
             migrationBuilder.DropTable(
                 name: "Entidade");
-
-            migrationBuilder.DropTable(
-                name: "Tag");
         }
     }
 }

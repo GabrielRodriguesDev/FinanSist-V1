@@ -86,7 +86,7 @@ namespace FinanSist.WebApi.Controllers
         [HttpGet]
         [Authorize]
         [Route("{id}")]
-        public async Task<IActionResult> Get([FromServices] IDespesaRepository despesaRepostory, [FromRoute] Guid id)
+        public async Task<IActionResult> Get([FromServices] IDespesaRepository despesaRepostory, [FromServices] IDespesaTagRepository despesaTagRepository, [FromRoute] Guid id)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
             try
@@ -96,10 +96,19 @@ namespace FinanSist.WebApi.Controllers
                 searchFormParams.NomeTabela = "Despesa";
                 searchFormParams.CamposTabela = DespesaQueries.ExtrairCamposForm().CamposTabela;
 
-                var result = despesaRepostory.PesquisarForm(searchFormParams);
-                if (result == null) new GenericCommandResult(true, "Desculpe, despesa não foi localizada.");
+                dynamic? resultDespesa = despesaRepostory.PesquisarForm(searchFormParams);
+                if (resultDespesa == null) resultDespesa = new GenericCommandResult(true, "Desculpe, despesa não foi localizada.");
 
-                tsc.SetResult(new JsonResult(result)
+                var resultDespesaTag = despesaTagRepository.SelectTagsPorDespesa(id);
+                if (resultDespesaTag != null && resultDespesaTag.Count() > 0)
+                {
+                    resultDespesa!.Tags = new List<string>();
+                    foreach (var Tag in resultDespesaTag)
+                    {
+                        resultDespesa.Tags.Add(Tag.Nome);
+                    }
+                }
+                tsc.SetResult(new JsonResult(resultDespesa)
                 {
                     StatusCode = 200
                 });

@@ -96,7 +96,6 @@ namespace FinanSist.WebApi.Controllers
                 searchFormParams.Id = id;
                 searchFormParams.NomeTabela = "Tag";
                 searchFormParams.CamposTabela = TagQueries.ExtrairCamposForm().CamposTabela;
-
                 dynamic? result = tagRepository.PesquisarForm(searchFormParams);
                 if (result == null) result = new GenericCommandResult(false, "Desculpe, Tag não foi localizado.");
                 tsc.SetResult(new JsonResult(result)
@@ -122,7 +121,6 @@ namespace FinanSist.WebApi.Controllers
             var tsc = new TaskCompletionSource<IActionResult>();
             try
             {
-
                 var campos = TagQueries.ExtrairCamposLista();
                 if (searchParams == null)
                 {
@@ -131,7 +129,6 @@ namespace FinanSist.WebApi.Controllers
                 searchParams.NomeTabela = "Tag";
                 searchParams.CamposTabela = campos.CamposTabela;
                 searchParams.TextosFiltroTabela = campos.TextosFiltro;
-
                 dynamic result = tagRepository.Pesquisar(searchParams);
                 if (result.Count == 0) result = new GenericCommandResult(false, "Desculpe, nenhum registro foi encontrado.");
                 tsc.SetResult(new JsonResult(result)

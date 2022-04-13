@@ -16,13 +16,14 @@ namespace FinanSist.Database.Mappings
             this.entity.Property(a => a.Observacao).HasColumnType("varchar(200)");
 
 
+
             #region  Comments
             this.entity.Property(b => b.DataPagamento).HasComment("Data de pagamento da Despesa.");
             this.entity.Property(b => b.DataPrevisao).HasComment("Data de previsão de pagamento da Despesa.");
             this.entity.Property(b => b.Descricao).HasComment("Descrição da Despesa.");
             this.entity.Property(b => b.CategoriaId).HasComment("Identificador da categoria.");
             this.entity.Property(b => b.EntidadeId).HasComment("Identificador da entidade.");
-            this.entity.Property(b => b.TagId).HasComment("Identificador da tag.");
+
             this.entity.Property(b => b.Observacao).HasComment("Observações da Despesa.");
             #endregion
         }

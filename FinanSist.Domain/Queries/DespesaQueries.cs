@@ -70,7 +70,7 @@ namespace FinanSist.Domain.Queries
             if (searchParams.CamposTabela != null && searchParams.CamposTabela.Count() > 0)
             {
                 sql.Append(String.Join(", DP.", searchParams.CamposTabela));
-                sql.Append(", ENT.Nome As Entidade, CT.Nome As Categoria, TG.Nome as Tag");
+                sql.Append(", ENT.Nome As Entidade, CT.Nome As Categoria ");
             }
             else
             {
@@ -78,8 +78,8 @@ namespace FinanSist.Domain.Queries
             };
             sql.AppendLine($" From {searchParams.NomeTabela} DP ");
             sql.AppendLine("Join Entidade ENT On ENT.Id = DP.EntidadeId ");
-            sql.AppendLine("Join Categoria CT On CT.Id = DP.CategoriaId ");
-            sql.AppendLine("Join Tag TG On TG.Id = DP.TagId ");
+            sql.AppendLine("Left Join Categoria CT On CT.Id = DP.CategoriaId ");
+
             sql.AppendLine("Where 1=1");
             if (searchParams.Ativo != null)
             {

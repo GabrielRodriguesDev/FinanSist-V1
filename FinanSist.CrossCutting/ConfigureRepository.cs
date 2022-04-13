@@ -25,6 +25,7 @@ public class ConfigureRepository
         services.AddScoped<IEntidadeRepository, EntidadeRepository>();
         services.AddScoped<ITagRepository, TagRepository>();
         services.AddScoped<IDespesaRepository, DespesaRepository>();
+        services.AddScoped<IDespesaTagRepository, DespesaTagRepository>();
 
         services.AddScoped<ISequenciaHelper, SequenciaHelper>();
     }

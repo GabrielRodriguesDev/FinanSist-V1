@@ -24,10 +24,8 @@ namespace FinanSist.Domain.Queries.Result.Despesa
         [IgnoreProperty]
         public string Categoria { get; set; } = null!;
 
-        [IgnoreProperty]
-        public string Tag { get; set; } = null!;
 
-        [IgnoreProperty]
         public String? Observacao { get; set; } = null!;
+
     }
 }

@@ -15,8 +15,10 @@ namespace FinanSist.Domain.Commands.Despesa
         public DateTime? DataPrevisao { get; set; }
         public Guid? EntidadeId { get; set; }
         public Guid? CategoriaId { get; set; }
-        public Guid? TagId { get; set; }
+
         public String? Observacao { get; set; }
+
+        public IEnumerable<Guid>? TagId { get; set; } = null!;
 
         public override void Validate()
         {
@@ -35,6 +37,14 @@ namespace FinanSist.Domain.Commands.Despesa
             if (this.Observacao != null)
             {
                 if (this.Observacao.Length > 200) this.AddNotification("Observacao", "Observacao deve conter no máximo 200 caracteres.");
+            }
+            if (this.TagId != null && this.TagId.Count() > 0)
+            {
+                this.TagId = this.TagId.Distinct();
+                if (this.TagId.Count() > 3)
+                {
+                    this.AddNotification("TagId", "Despesa só pode conter no máximo 3 Tags.");
+                }
             }
         }
     }

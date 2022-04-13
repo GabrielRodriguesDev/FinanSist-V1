@@ -18,10 +18,11 @@ namespace FinanSist.Domain.Entities
         public Entidade? Entidade { get; private set; }
         public Guid? CategoriaId { get; private set; }
         public Categoria? Categoria { get; private set; }
-        public Guid? TagId { get; private set; }
-        public Tag? Tag { get; private set; }
         public String? Observacao { get; private set; }
         public int CodigoInterno { get; private set; }
+
+        public IList<DespesaTag> DespesaTag { get; private set; }
+
         #endregion
 
         #region Constructor
@@ -33,7 +34,7 @@ namespace FinanSist.Domain.Entities
             this.DataPrevisao = cmd.DataPrevisao;
             this.EntidadeId = cmd.EntidadeId;
             this.CategoriaId = cmd.CategoriaId;
-            this.TagId = cmd.TagId;
+
             this.Observacao = cmd.Observacao;
         }
 
@@ -43,8 +44,8 @@ namespace FinanSist.Domain.Entities
             this.DataPagamento = cmd.DataPagamento;
             this.DataPrevisao = cmd.DataPrevisao;
             this.EntidadeId = cmd.EntidadeId;
-            this.CategoriaId = ValidationHelper.validateGuid(this.CategoriaId, cmd.CategoriaId);
-            this.TagId = ValidationHelper.validateGuid(this.TagId, cmd.TagId);
+            this.CategoriaId = cmd.CategoriaId;
+
             this.Observacao = cmd.Observacao;
         }
         #endregion

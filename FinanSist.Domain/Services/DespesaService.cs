@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FinanSist.Domain.Commands;
 using FinanSist.Domain.Commands.Despesa;
+using FinanSist.Domain.Commands.DespesaTag;
 using FinanSist.Domain.Entities;
 using FinanSist.Domain.Interfaces.Helpers;
 using FinanSist.Domain.Interfaces.Infrastructure;
@@ -18,11 +19,14 @@ namespace FinanSist.Domain.Services
 
         private ISequenciaHelper _sequenciaHelper;
 
+        private IDespesaTagService _despesaTagService;
+
         private IUnitOfWork _uow;
 
-        public DespesaService(IDespesaRepository despesaRepository, IUnitOfWork uow, ISequenciaHelper sequenciaHelper)
+        public DespesaService(IDespesaRepository despesaRepository, IDespesaTagService despesaTagService, IUnitOfWork uow, ISequenciaHelper sequenciaHelper)
         {
             this._despesaRepository = despesaRepository;
+            this._despesaTagService = despesaTagService;
             this._uow = uow;
             this._sequenciaHelper = sequenciaHelper;
         }
@@ -41,21 +45,23 @@ namespace FinanSist.Domain.Services
                 var categoriadb = _despesaRepository.RetornaCampo(createDespesaCommand.CategoriaId, "Categoria", "Nome");
                 if (categoriadb == null) return new GenericCommandResult(false, "Desculpe, categoria não localizada");
             }
-
-
-            if (createDespesaCommand.TagId != null)
-            {
-                var tagdb = _despesaRepository.RetornaCampo(createDespesaCommand.TagId, "Tag", "Nome");
-                if (tagdb == null) return new GenericCommandResult(false, "Desculpe, tag não localizada");
-            }
-
             var codigoInterno = _sequenciaHelper.ProximoNumero(typeof(Despesa).Name);
             Despesa despesa = new Despesa(createDespesaCommand);
             despesa.setCodigoInterno(codigoInterno);
 
+
+
             _uow.BeginTransaction();
             try
             {
+                if (createDespesaCommand.TagId != null && createDespesaCommand.TagId.Count() > 0)
+                {
+                    foreach (var tagId in createDespesaCommand.TagId!)
+                    {
+                        GenericDepesaTagCommand createDepesaTagCommand = new GenericDepesaTagCommand(despesa.Id, tagId);
+                        _despesaTagService.Create(createDepesaTagCommand);
+                    }
+                }
                 _despesaRepository.Create(despesa);
                 _uow.Commit();
             }
@@ -73,7 +79,7 @@ namespace FinanSist.Domain.Services
                 DataPrevisao = despesa.DataPrevisao,
                 EntidadeId = despesa.EntidadeId,
                 CategoriaId = despesa.CategoriaId,
-                TagId = despesa.TagId,
+                Tags = new { createDespesaCommand.TagId },
                 Observacao = despesa.Observacao
             });
         }
@@ -98,20 +104,33 @@ namespace FinanSist.Domain.Services
                 if (categoriadb == null) return new GenericCommandResult(false, "Desculpe, categoria não localizada");
             }
 
-            if (despesa.TagId != updateDespesaCommand.TagId && updateDespesaCommand.TagId != null)
-            {
-                var tagdb = _despesaRepository.RetornaCampo(updateDespesaCommand.TagId, "Tag", "Nome");
-                if (tagdb == null) return new GenericCommandResult(false, "Desculpe, tag não localizada");
-            }
-
             despesa.Update(updateDespesaCommand);
-
-
-
             _uow.BeginTransaction();
 
             try
             {
+
+                if (updateDespesaCommand.TagId != null && updateDespesaCommand.TagId.Count() > 0)
+                {
+                    var despesaTags = _despesaTagService.Delete(despesa.Id);
+                    if (despesaTags)
+                    {
+                        foreach (var tagId in updateDespesaCommand.TagId!)
+                        {
+                            GenericDepesaTagCommand updateDespesaTagCommand = new GenericDepesaTagCommand(despesa.Id, tagId);
+                            var despesaTag = _despesaTagService.Create(updateDespesaTagCommand);
+                            if (!despesaTag.Success)
+                            {
+                                return despesaTag;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Não foi possivel excluir as tags");
+                    }
+                }
+
                 _despesaRepository.Update(despesa);
                 _uow.Commit();
             }
@@ -127,7 +146,7 @@ namespace FinanSist.Domain.Services
                 DataPrevisao = despesa.DataPrevisao,
                 EntidadeId = despesa.EntidadeId,
                 CategoriaId = despesa.CategoriaId,
-                TagId = despesa.TagId,
+                Tags = new { updateDespesaCommand.TagId },
                 Observacao = despesa.Observacao
             });
         }
