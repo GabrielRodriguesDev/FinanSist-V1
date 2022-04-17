@@ -84,13 +84,23 @@ namespace FinanSist.Database.Migrations
                         .HasColumnType("varchar(200)")
                         .HasComment("Descrição da Despesa.");
 
+                    b.Property<bool>("Efetivado")
+                        .HasColumnType("tinyint(1)")
+                        .HasComment("Controle de estado que define se o pagamento foi efetivado (despesa paga).");
+
                     b.Property<Guid?>("EntidadeId")
+                        .IsRequired()
                         .HasColumnType("char(36)")
                         .HasComment("Identificador da entidade.");
 
                     b.Property<string>("Observacao")
                         .HasColumnType("varchar(200)")
                         .HasComment("Observações da Despesa.");
+
+                    b.Property<decimal?>("Valor")
+                        .IsRequired()
+                        .HasColumnType("decimal(9,2)")
+                        .HasComment("Valor da despesa.");
 
                     b.HasKey("Id");
 
@@ -314,7 +324,9 @@ namespace FinanSist.Database.Migrations
 
                     b.HasOne("FinanSist.Domain.Entities.Entidade", "Entidade")
                         .WithMany()
-                        .HasForeignKey("EntidadeId");
+                        .HasForeignKey("EntidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Categoria");
 

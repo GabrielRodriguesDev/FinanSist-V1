@@ -33,5 +33,10 @@ namespace FinanSist.Domain.Queries
             return sql.ToString();
         }
 
+        public static string ExistePorTag()
+        {
+            return "Select * From DespesaTag Where TagId = @TagId";
+        }
+
     }
 }

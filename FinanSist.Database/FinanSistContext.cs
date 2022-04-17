@@ -1,7 +1,6 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using FinanSist.Database.Mappings;
-using FinanSist.Domain.Commands.Usuario;
 using FinanSist.Domain.Entities;
 
 namespace FinanSist.Database

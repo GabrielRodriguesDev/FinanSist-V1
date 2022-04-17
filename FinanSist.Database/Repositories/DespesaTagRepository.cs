@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Dapper;
 using FinanSist.Domain.Entities;
 using FinanSist.Domain.Interfaces.Infrastructure;
@@ -30,8 +26,8 @@ namespace FinanSist.Database.Repositories
 
         public bool ExistePorDepesa(Guid despesaId)
         {
-            var despesasTags = _connection.Query(DespesaTagQueries.ExistePorDepesa(), new { DespesaId = despesaId }, _uow.CurrentTransaction());
-            if (despesasTags.Count() == 0)
+            var despesaTag = _connection.Query(DespesaTagQueries.ExistePorDepesa(), new { DespesaId = despesaId }, _uow.CurrentTransaction());
+            if (despesaTag.Count() == 0)
             {
                 return false;
             }
@@ -44,6 +40,19 @@ namespace FinanSist.Database.Repositories
         public IEnumerable<DespesaTagFormQueryResult> SelectTagsPorDespesa(Guid despesaId)
         {
             return _connection.Query<DespesaTagFormQueryResult>(DespesaTagQueries.SelectTagsPorDespesa(), new { DespesaId = despesaId }, _uow.CurrentTransaction());
+        }
+
+        public bool ExistePorTag(Guid tagId)
+        {
+            var despesaTag = _connection.Query(DespesaTagQueries.ExistePorTag(), new { TagId = tagId }, _uow.CurrentTransaction());
+            if (despesaTag.Count() == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

@@ -128,7 +128,9 @@ namespace FinanSist.Database.Migrations
                         .Annotation("MySql:CharSet", "utf8"),
                     DataPagamento = table.Column<DateTime>(type: "datetime(6)", nullable: true, comment: "Data de pagamento da Despesa."),
                     DataPrevisao = table.Column<DateTime>(type: "datetime(6)", nullable: true, comment: "Data de previsão de pagamento da Despesa."),
-                    EntidadeId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da entidade.", collation: "ascii_general_ci"),
+                    Valor = table.Column<decimal>(type: "decimal(9,2)", nullable: false, comment: "Valor da despesa."),
+                    Efetivado = table.Column<bool>(type: "tinyint(1)", nullable: false, comment: "Controle de estado que define se o pagamento foi efetivado (despesa paga)."),
+                    EntidadeId = table.Column<Guid>(type: "char(36)", nullable: false, comment: "Identificador da entidade.", collation: "ascii_general_ci"),
                     CategoriaId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da categoria.", collation: "ascii_general_ci"),
                     Observacao = table.Column<string>(type: "varchar(200)", nullable: true, comment: "Observações da Despesa.")
                         .Annotation("MySql:CharSet", "utf8"),
@@ -148,7 +150,8 @@ namespace FinanSist.Database.Migrations
                         name: "FK_Despesa_Entidade_EntidadeId",
                         column: x => x.EntidadeId,
                         principalTable: "Entidade",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8");
 
@@ -157,7 +160,7 @@ namespace FinanSist.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    DespesaId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da despesa", collation: "ascii_general_ci"),
+                    DespesaId = table.Column<Guid>(type: "char(36)", nullable: false, comment: "Identificador da despesa", collation: "ascii_general_ci"),
                     TagId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da tag", collation: "ascii_general_ci"),
                     CriadoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     AlteradoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true)
@@ -169,7 +172,8 @@ namespace FinanSist.Database.Migrations
                         name: "FK_DespesaTag_Despesa_DespesaId",
                         column: x => x.DespesaId,
                         principalTable: "Despesa",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DespesaTag_Tag_TagId",
                         column: x => x.TagId,

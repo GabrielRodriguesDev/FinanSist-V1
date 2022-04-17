@@ -11,11 +11,14 @@ namespace FinanSist.Domain.Services
     {
         private ITagRepository _tagRepository;
 
+        private IDespesaTagRepository _despesaTagRepository;
+
         private IUnitOfWork _uow;
 
-        public TagService(ITagRepository tagRepository, IUnitOfWork uow)
+        public TagService(ITagRepository tagRepository, IDespesaTagRepository despesaTagRepository, IUnitOfWork uow)
         {
             _tagRepository = tagRepository;
+            _despesaTagRepository = despesaTagRepository;
             _uow = uow;
         }
         public GenericCommandResult Create(CreateTagCommand createTagCommand)
@@ -100,6 +103,12 @@ namespace FinanSist.Domain.Services
             if (!tagdb)
             {
                 return new GenericCommandResult(false, "Desculpe, tag não foi localizada.");
+            }
+
+            var despesaTagdb = _despesaTagRepository.ExistePorTag(id);
+            if (despesaTagdb)
+            {
+                return new GenericCommandResult(false, "Desculpe, não foi possivel excluir a tag, já está sendo utilizada por outro registro.");
             }
 
             _uow.BeginTransaction();

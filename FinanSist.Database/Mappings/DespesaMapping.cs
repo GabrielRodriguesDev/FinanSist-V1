@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FinanSist.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,16 +10,17 @@ namespace FinanSist.Database.Mappings
             base.OnModelCreating(modelBuilder);
             this.entity.Property(a => a.Descricao).HasColumnType("varchar(200)");
             this.entity.Property(a => a.Observacao).HasColumnType("varchar(200)");
-
-
+            this.entity.Property(a => a.Valor).HasColumnType("decimal(9,2)").IsRequired();
+            this.entity.Property(a => a.EntidadeId).HasColumnType("char(36)").IsRequired();
 
             #region  Comments
+            this.entity.Property(b => b.Descricao).HasComment("Descrição da Despesa.");
             this.entity.Property(b => b.DataPagamento).HasComment("Data de pagamento da Despesa.");
             this.entity.Property(b => b.DataPrevisao).HasComment("Data de previsão de pagamento da Despesa.");
-            this.entity.Property(b => b.Descricao).HasComment("Descrição da Despesa.");
+            this.entity.Property(b => b.Valor).HasComment("Valor da despesa.");
+            this.entity.Property(b => b.Efetivado).HasComment("Controle de estado que define se o pagamento foi efetivado (despesa paga).");
             this.entity.Property(b => b.CategoriaId).HasComment("Identificador da categoria.");
             this.entity.Property(b => b.EntidadeId).HasComment("Identificador da entidade.");
-
             this.entity.Property(b => b.Observacao).HasComment("Observações da Despesa.");
             #endregion
         }

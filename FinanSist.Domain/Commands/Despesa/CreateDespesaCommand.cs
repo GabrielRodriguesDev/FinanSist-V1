@@ -12,6 +12,8 @@ namespace FinanSist.Domain.Commands.Despesa
         public String Descricao { get; set; } = null!;
         public DateTime? DataPagamento { get; set; }
         public DateTime? DataPrevisao { get; set; }
+        public decimal? Valor { get; set; }
+        public bool Efetivado { get; set; }
         public Guid? EntidadeId { get; set; }
         public Guid? CategoriaId { get; set; }
         public String? Observacao { get; set; } = null!;
@@ -22,7 +24,10 @@ namespace FinanSist.Domain.Commands.Despesa
             {
                 if (this.Descricao.Length > 200) this.AddNotification("Descricao", "Descricao deve conter no máximo 200 caracteres.");
             }
-
+            if (this.Valor <= 0)
+            {
+                this.AddNotification("Valor", "Valor da despesa deve ser maior que zero.");
+            }
             if (EntidadeId == null)
             {
                 this.AddNotification("EntidadeId", "Informe a Entidade.");
