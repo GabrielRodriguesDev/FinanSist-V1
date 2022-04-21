@@ -94,20 +94,23 @@ namespace FinanSist.Database.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Nome = table.Column<string>(type: "varchar(120)", nullable: false, comment: "Nome do usuário")
+                    Nome = table.Column<string>(type: "varchar(120)", nullable: false, comment: "Nome do usuário.")
                         .Annotation("MySql:CharSet", "utf8"),
-                    Email = table.Column<string>(type: "varchar(100)", nullable: false, comment: "E-mail do usuário")
+                    Email = table.Column<string>(type: "varchar(100)", nullable: false, comment: "E-mail do usuário.")
                         .Annotation("MySql:CharSet", "utf8"),
-                    Telefone = table.Column<string>(type: "varchar(30)", nullable: false, comment: "Telefone do usuário")
+                    Telefone = table.Column<string>(type: "varchar(30)", nullable: false, comment: "Telefone do usuário.")
                         .Annotation("MySql:CharSet", "utf8"),
-                    Senha = table.Column<string>(type: "LONGTEXT", nullable: true, comment: "Senha do usuário")
+                    Senha = table.Column<string>(type: "LONGTEXT", nullable: true, comment: "Senha do usuário.")
                         .Annotation("MySql:CharSet", "utf8"),
-                    TokenSenha = table.Column<string>(type: "longtext", nullable: true)
+                    TokenSenha = table.Column<string>(type: "varchar(255)", nullable: true, comment: "Token para alteração da senha.")
                         .Annotation("MySql:CharSet", "utf8"),
-                    TokenSenhaValidade = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    TokenSenhaValidade = table.Column<DateTime>(type: "datetime(6)", nullable: true, comment: "Validade do token de alteração de senha."),
+                    RefreshToken = table.Column<string>(type: "varchar(50)", nullable: true, comment: "Validade do refresh token.")
+                        .Annotation("MySql:CharSet", "utf8"),
+                    RefreshTokenValidade = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ExigirNovaSenha = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Permissao = table.Column<string>(type: "varchar(20)", nullable: false, comment: "Permissão do usuário, sendo elas: Administrador e Padrao")
+                    Permissao = table.Column<string>(type: "varchar(20)", nullable: false, comment: "Permissão do usuário, sendo elas: Administrador e Padrao.")
                         .Annotation("MySql:CharSet", "utf8"),
                     CriadoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     AlteradoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true)
@@ -116,7 +119,7 @@ namespace FinanSist.Database.Migrations
                 {
                     table.PrimaryKey("PK_Usuario", x => x.Id);
                 },
-                comment: "Tabela reposável por organizar os usuários")
+                comment: "Tabela reposável por organizar os usuários.")
                 .Annotation("MySql:CharSet", "utf8");
 
             migrationBuilder.CreateTable(
@@ -226,6 +229,18 @@ namespace FinanSist.Database.Migrations
                 name: "UnqUsuarioEmail",
                 table: "Usuario",
                 column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UnqUsuarioRefreshToken",
+                table: "Usuario",
+                column: "RefreshToken",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UnqUsuarioTokenSenha",
+                table: "Usuario",
+                column: "TokenSenha",
                 unique: true);
         }
 

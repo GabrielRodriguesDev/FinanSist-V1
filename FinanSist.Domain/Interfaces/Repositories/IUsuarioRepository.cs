@@ -17,6 +17,8 @@ namespace FinanSist.Domain.Interfaces.Repositories
 
         Usuario? PorTokenSenha(string token);
 
+        Usuario? PorRefreshTokenAndId(string refreshToken, Guid id);
+
         UsuarioFormQueryResult? PesquisarForm(SearchFormParams searchFormParams);
 
         IEnumerable<ListaUsuarioFormQuery> Pesquisar(SearchParams searchParams);

@@ -32,6 +32,11 @@ namespace FinanSist.Database.Repositories
         {
             return _connection.Query<Usuario>(UsuarioQueries.PorTokenSenha(), new { TokenSenha = token }).FirstOrDefault();
         }
+
+        public Usuario? PorRefreshTokenAndId(string refreshToken, Guid id)
+        {
+            return _connection.Query<Usuario>(UsuarioQueries.PorRefreshTokenAndId(), new { RefreshToken = refreshToken, Id = id }).FirstOrDefault();
+        }
         public UsuarioFormQueryResult? PesquisarForm(SearchFormParams searchFormParams)
         {
 

@@ -11,20 +11,17 @@ namespace FinanSist.Domain.Entities
     {
 
         #region Property
-
         public string Nome { get; private set; } = null!;
         public string Email { get; private set; } = null!;
         public string Telefone { get; private set; } = null!;
         public string? Senha { get; private set; } = null!;
         public string? TokenSenha { get; private set; } = null!;
         public DateTime? TokenSenhaValidade { get; private set; }
+        public string? RefreshToken { get; private set; } = null!;
+        public DateTime? RefreshTokenValidade { get; private set; }
         public bool Ativo { get; private set; }
         public bool ExigirNovaSenha { get; private set; }
         public string? Permissao { get; private set; } = null!;
-
-
-
-
         #endregion
 
         #region Constructor
@@ -69,6 +66,12 @@ namespace FinanSist.Domain.Entities
         {
             this.TokenSenha = Guid.NewGuid().ToString();
             this.TokenSenhaValidade = DateTime.Now.AddMinutes(30);
+        }
+
+        public void NovoRefreshToken(string token)
+        {
+            this.RefreshToken = token;
+            this.RefreshTokenValidade = DateTime.Now.AddMinutes(140);
         }
 
 

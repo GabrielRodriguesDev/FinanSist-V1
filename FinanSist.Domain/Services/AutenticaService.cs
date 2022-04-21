@@ -26,7 +26,7 @@ namespace FinanSist.Domain.Services
         #endregion
 
         #region Method
-        public LoginCommandResult Login(LoginCommand cmd)
+        public LoginCommandResult Login(LoginCommand cmd, string refreshToken)
         {
             cmd.Validate();
             if (cmd.Invalid)
@@ -36,16 +36,26 @@ namespace FinanSist.Domain.Services
             if (usuario == null)
                 return new LoginCommandResult(false, "Email ou senha inválidos", cmd.Notifications);
 
-            if (usuario.VerificarSenha(cmd.Senha))
-            {
-                var resultData = new Autenticado(usuario);
-                return new LoginCommandResult(true, "Login efetuado com sucesso", resultData);
-            }
-            else
-            {
+            if (!usuario.VerificarSenha(cmd.Senha))
                 return new LoginCommandResult(false, "Email ou senha inválidos");
+            usuario.NovoRefreshToken(refreshToken);
+
+            _uow.BeginTransaction();
+            try
+            {
+                _usuarioRepository.Update(usuario);
+                _uow.Commit();
             }
+            catch (System.Exception)
+            {
+                _uow.Rollback();
+                throw;
+            }
+
+            var resultData = new Autenticado(usuario);
+            return new LoginCommandResult(true, "Login efetuado com sucesso", resultData);
         }
+
         public GenericCommandResult EsqueceuSenha(EsqueceuSenhaCommand cmd)
         {
             cmd.Validate();
@@ -102,6 +112,36 @@ namespace FinanSist.Domain.Services
                 throw;
             }
             return new GenericCommandResult(true, "Senha alterada com sucesso");
+        }
+
+
+        public RefreshTokenCommandResult RefreshToken(RefreshAutenticado cmd, string refreshToken)
+        {
+            if (!cmd.Success)
+                return new RefreshTokenCommandResult(false, "Desculpe, informações inválidas.");
+
+            if (cmd.UsuarioId == null)
+                return new RefreshTokenCommandResult(false, "Desculpe, informações inválidas.");
+
+            var usuario = _usuarioRepository.PorRefreshTokenAndId(cmd.RefreshToken!, cmd.UsuarioId.Value);
+            if (usuario == null)
+                return new RefreshTokenCommandResult(false, "Desculpe, informações inválidas.");
+
+            usuario.NovoRefreshToken(refreshToken);
+
+            _uow.BeginTransaction();
+            try
+            {
+                _usuarioRepository.Update(usuario);
+                _uow.Commit();
+            }
+            catch (System.Exception)
+            {
+                _uow.Rollback();
+                throw;
+            }
+            var resultData = new Autenticado(usuario);
+            return new RefreshTokenCommandResult(true, "Login efetuado com sucesso", resultData);
         }
         #endregion
     }

@@ -47,6 +47,7 @@ namespace FinanSist.Domain.Commands.Autentica
         public string Nome { get; set; }
         public string Email { get; set; }
         public string Permissao { get; set; }
+        public string RefreshToken { get; set; }
         #endregion
 
         #region  Constructor
@@ -56,6 +57,7 @@ namespace FinanSist.Domain.Commands.Autentica
             this.Nome = usuario.Nome;
             this.Email = usuario.Email;
             this.Permissao = usuario.Permissao;
+            this.RefreshToken = usuario.RefreshToken;
         }
         #endregion
     }

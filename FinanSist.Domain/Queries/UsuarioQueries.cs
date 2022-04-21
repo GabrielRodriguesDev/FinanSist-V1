@@ -21,6 +21,11 @@ namespace FinanSist.Domain.Queries
         {
             return @"Select * from Usuario Where TokenSenha = @TokenSenha";
         }
+
+        public static string PorRefreshTokenAndId()
+        {
+            return @"Select * from Usuario Where RefreshToken = @RefreshToken And Id = @Id";
+        }
         public static ExtracaoCamposParams ExtrairCamporForm()
         {
             var type = typeof(UsuarioFormQueryResult); // Pegando a classe

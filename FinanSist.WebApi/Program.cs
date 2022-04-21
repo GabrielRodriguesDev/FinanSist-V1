@@ -89,6 +89,14 @@ builder.Services.AddAuthentication(auth =>
                         ValidateAudience = false, // Definindo que não deve validar o Audience
                         ClockSkew = TimeSpan.Zero //Definindo a "inclinação do relógio"
                     };
+                    jwt.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            context.Token = context.Request.Cookies["tknjwt"];
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 #endregion
 

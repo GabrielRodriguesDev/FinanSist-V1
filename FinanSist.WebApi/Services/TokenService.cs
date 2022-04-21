@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using FinanSist.Domain.Commands.Autentica;
 using FinanSist.Domain.Entities;
 using WMSLite.WebApi;
+using System.Security.Cryptography;
+using FinanSist.Domain.Commands;
 
 namespace FinanSist.Domain.Services
 {
@@ -32,6 +34,46 @@ namespace FinanSist.Domain.Services
             // Com tudo parametrizado acima, podemos gerar o token
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token); //Retornando o token em string
+        }
+
+        public static string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
+
+        public static RefreshAutenticado GetPrincipalFromExpiredToken(RefreshTokenCommand cmd)
+        {
+            cmd.Validate();
+            if (cmd.Invalid)
+                return new RefreshAutenticado(false, "Ops, Algo deu errado!", cmd.Notifications);
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false, //you might want to validate the audience and issuer depending on your use case
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Settings.Secret)),
+                ValidateLifetime = false
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            dynamic validateToken;
+            try
+            {
+                validateToken = tokenHandler.ValidateToken(cmd.Token, tokenValidationParameters, out securityToken);
+                var jwtSecurityToken = securityToken as JwtSecurityToken;
+                if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                    return new RefreshAutenticado(false, "Token inválido.");
+            }
+            catch (System.Exception)
+            {
+                return new RefreshAutenticado(false, "Token inválido.");
+            }
+            return new RefreshAutenticado(true, "Token válido.", Guid.Parse(validateToken.Identity.Name), cmd.RefreshToken);
         }
     }
 }

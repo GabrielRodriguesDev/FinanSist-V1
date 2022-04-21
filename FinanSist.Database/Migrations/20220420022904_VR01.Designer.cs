@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanSist.Database.Migrations
 {
     [DbContext(typeof(FinanSistContext))]
-    [Migration("20220417232618_VR01")]
+    [Migration("20220420022904_VR01")]
     partial class VR01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -275,7 +275,7 @@ namespace FinanSist.Database.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
-                        .HasComment("E-mail do usuário");
+                        .HasComment("E-mail do usuário.");
 
                     b.Property<bool>("ExigirNovaSenha")
                         .HasColumnType("tinyint(1)");
@@ -283,27 +283,36 @@ namespace FinanSist.Database.Migrations
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(120)")
-                        .HasComment("Nome do usuário");
+                        .HasComment("Nome do usuário.");
 
                     b.Property<string>("Permissao")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
-                        .HasComment("Permissão do usuário, sendo elas: Administrador e Padrao");
+                        .HasComment("Permissão do usuário, sendo elas: Administrador e Padrao.");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("varchar(50)")
+                        .HasComment("Validade do refresh token.");
+
+                    b.Property<DateTime?>("RefreshTokenValidade")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Senha")
                         .HasColumnType("LONGTEXT")
-                        .HasComment("Senha do usuário");
+                        .HasComment("Senha do usuário.");
 
                     b.Property<string>("Telefone")
                         .IsRequired()
                         .HasColumnType("varchar(30)")
-                        .HasComment("Telefone do usuário");
+                        .HasComment("Telefone do usuário.");
 
                     b.Property<string>("TokenSenha")
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)")
+                        .HasComment("Token para alteração da senha.");
 
                     b.Property<DateTime?>("TokenSenhaValidade")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime(6)")
+                        .HasComment("Validade do token de alteração de senha.");
 
                     b.HasKey("Id");
 
@@ -311,9 +320,17 @@ namespace FinanSist.Database.Migrations
                         .IsUnique()
                         .HasDatabaseName("UnqUsuarioEmail");
 
+                    b.HasIndex("RefreshToken")
+                        .IsUnique()
+                        .HasDatabaseName("UnqUsuarioRefreshToken");
+
+                    b.HasIndex("TokenSenha")
+                        .IsUnique()
+                        .HasDatabaseName("UnqUsuarioTokenSenha");
+
                     b.ToTable("Usuario", (string)null);
 
-                    b.HasComment("Tabela reposável por organizar os usuários");
+                    b.HasComment("Tabela reposável por organizar os usuários.");
 
                     MySqlEntityTypeBuilderExtensions.HasCharSet(b, "utf8");
                 });
