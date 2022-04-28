@@ -19,9 +19,6 @@ namespace FinanSist.Domain.Commands.Despesa
         public bool Efetivado { get; set; }
         public Guid? EntidadeId { get; set; }
         public Guid? CategoriaId { get; set; }
-        public bool Repetir { get; set; }
-        public int? QuantidadeRepeticao { get; set; }
-        public int? PeriodoRepeticao { get; set; }
         public String? Observacao { get; set; }
 
         public IEnumerable<Guid>? TagId { get; set; } = null!;
@@ -62,38 +59,7 @@ namespace FinanSist.Domain.Commands.Despesa
                 }
             }
 
-            if (this.Repetir == true)
-            {
-                if (this.QuantidadeRepeticao <= 0)
-                {
-                    this.AddNotification("QuantidadeRepeticao", "Quantidade de repetições deve ser maior que 0.");
-                }
 
-                bool result = false;
-                foreach (var periodoRepeticao in Enum.GetValues(typeof(PeriodoRepeticaoEnum)))
-                {
-                    if (this.PeriodoRepeticao == (int)periodoRepeticao)
-                    {
-                        result = true;
-                    }
-                }
-                if (result == false)
-                {
-                    this.AddNotification("PeriodoRepeticao", "Informe um período de repetição válido.");
-                }
-            }
-            else
-            {
-                if (this.QuantidadeRepeticao != 0)
-                {
-                    this.AddNotification("QuantidadeRepeticao", "Quantidade de repetições deve ser igual a 0 para despesas que não repetem.");
-                }
-
-                if (this.PeriodoRepeticao != 0)
-                {
-                    this.AddNotification("PeriodoRepeticao", "Período de repetição deve ser igual a 0 para despesas que não repetem.");
-                }
-            }
         }
     }
 }

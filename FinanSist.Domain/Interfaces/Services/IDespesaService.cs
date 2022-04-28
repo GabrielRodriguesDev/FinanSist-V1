@@ -7,6 +7,8 @@ namespace FinanSist.Domain.Interfaces.Services
     {
         GenericCommandResult Create(CreateDespesaCommand createDespesaCommand);
 
+        GenericCommandResult CreateDepesasRepeticao(CreateDespesaCommand createDespesaCommand);
+
         GenericCommandResult Update(UpdateDespesaCommand updateDespesaCommand);
 
         GenericCommandResult Delete(Guid id);

@@ -58,6 +58,10 @@ namespace FinanSist.Domain.Commands.Despesa
                 if (this.QuantidadeRepeticao <= 0)
                 {
                     this.AddNotification("QuantidadeRepeticao", "Quantidade de repetições deve ser maior que 0.");
+                    if (this.QuantidadeRepeticao > 12)
+                    {
+                        this.AddNotification("QuantidadeRepeticao", "Só é possivel repetir uma mesma despesa até 12 vezes.");
+                    }
                 }
 
                 bool result = false;
@@ -85,6 +89,24 @@ namespace FinanSist.Domain.Commands.Despesa
                     this.AddNotification("PeriodoRepeticao", "Período de repetição deve ser igual a 0 para despesas que não se repetem.");
                 }
             }
+        }
+
+        public CreateDespesaCommand DeepCopy()
+        {
+            CreateDespesaCommand objectTemp = (CreateDespesaCommand)this.MemberwiseClone();
+            objectTemp.Descricao = this.Descricao;
+            objectTemp.DataPagamento = this.DataPagamento;
+            objectTemp.DataPrevisao = this.DataPrevisao;
+            objectTemp.DataVencimento = this.DataVencimento;
+            objectTemp.Valor = this.Valor;
+            objectTemp.Efetivado = this.Efetivado;
+            objectTemp.EntidadeId = this.EntidadeId;
+            objectTemp.CategoriaId = this.CategoriaId;
+            objectTemp.Observacao = this.Observacao;
+            objectTemp.Repetir = this.Repetir;
+            objectTemp.QuantidadeRepeticao = this.QuantidadeRepeticao;
+            objectTemp.PeriodoRepeticao = this.PeriodoRepeticao;
+            return objectTemp;
         }
     }
 }

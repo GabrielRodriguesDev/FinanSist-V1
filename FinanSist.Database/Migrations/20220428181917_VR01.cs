@@ -129,13 +129,20 @@ namespace FinanSist.Database.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Descricao = table.Column<string>(type: "varchar(200)", nullable: true, comment: "Descrição da Despesa.")
                         .Annotation("MySql:CharSet", "utf8"),
+                    DataDespesa = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DataPagamento = table.Column<DateTime>(type: "datetime(6)", nullable: true, comment: "Data de pagamento da Despesa."),
                     DataPrevisao = table.Column<DateTime>(type: "datetime(6)", nullable: true, comment: "Data de previsão de pagamento da Despesa."),
+                    DataVencimento = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Valor = table.Column<decimal>(type: "decimal(9,2)", nullable: false, comment: "Valor da despesa."),
                     Efetivado = table.Column<bool>(type: "tinyint(1)", nullable: false, comment: "Controle de estado que define se o pagamento foi efetivado (despesa paga)."),
                     EntidadeId = table.Column<Guid>(type: "char(36)", nullable: false, comment: "Identificador da entidade.", collation: "ascii_general_ci"),
                     CategoriaId = table.Column<Guid>(type: "char(36)", nullable: true, comment: "Identificador da categoria.", collation: "ascii_general_ci"),
                     Observacao = table.Column<string>(type: "varchar(200)", nullable: true, comment: "Observações da Despesa.")
+                        .Annotation("MySql:CharSet", "utf8"),
+                    Repetir = table.Column<bool>(type: "tinyint(1)", nullable: false, comment: "Controle de estado que define se a despesa deve repetir ou não."),
+                    QuantidadeRepeticao = table.Column<int>(type: "int", nullable: true, comment: "Quantidade de repetição deve existir de uma determinada despesa"),
+                    PeriodoRepeticao = table.Column<int>(type: "int", nullable: true, comment: "Periodo no qual a repetição vai existir sendo 1 -> Mensal e 2 -> Anual"),
+                    DescricaoRepeticao = table.Column<string>(type: "varchar(210)", nullable: true, comment: "Descrição referente a repetição da despesa.")
                         .Annotation("MySql:CharSet", "utf8"),
                     CodigoInterno = table.Column<int>(type: "int", nullable: false),
                     CriadoEm = table.Column<DateTime>(type: "datetime(6)", nullable: true),

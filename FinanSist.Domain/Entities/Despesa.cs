@@ -12,6 +12,7 @@ namespace FinanSist.Domain.Entities
 
         #region Property
         public String? Descricao { get; private set; } = null!;
+        public DateTime? DataDespesa { get; private set; }
         public DateTime? DataPagamento { get; private set; }
         public DateTime? DataPrevisao { get; private set; }
         public DateTime? DataVencimento { get; private set; }
@@ -25,6 +26,7 @@ namespace FinanSist.Domain.Entities
         public bool Repetir { get; private set; }
         public int? QuantidadeRepeticao { get; private set; }
         public int? PeriodoRepeticao { get; private set; }
+        public String? DescricaoRepeticao { get; private set; } = null!;
         public int CodigoInterno { get; private set; }
         public IList<DespesaTag>? DespesaTag { get; private set; }
 
@@ -35,6 +37,7 @@ namespace FinanSist.Domain.Entities
         public Despesa(CreateDespesaCommand cmd)
         {
             this.Descricao = cmd.Descricao;
+            this.DataDespesa = DateTime.Now;
             this.DataPagamento = cmd.DataPagamento;
             this.DataPrevisao = cmd.DataPrevisao;
             this.DataVencimento = cmd.DataVencimento;
@@ -59,9 +62,6 @@ namespace FinanSist.Domain.Entities
             this.EntidadeId = cmd.EntidadeId;
             this.CategoriaId = cmd.CategoriaId;
             this.Observacao = cmd.Observacao;
-            this.Repetir = cmd.Repetir;
-            this.QuantidadeRepeticao = cmd.QuantidadeRepeticao;
-            this.PeriodoRepeticao = cmd.PeriodoRepeticao;
         }
         #endregion
 
@@ -69,6 +69,34 @@ namespace FinanSist.Domain.Entities
         public void setCodigoInterno(int value)
         {
             this.CodigoInterno = value;
+        }
+
+        public DateTime setDataDespesa(int periodoRepeticao)
+        {
+            switch (periodoRepeticao)
+            {
+                case 1:
+                    return DateTime.Now.AddMonths(1);
+                case 2:
+                    return DateTime.Now.AddYears(1);
+                default:
+                    return DateTime.Now;
+            }
+        }
+
+        public void setDataDespesaRepeticao(int controlador)
+        {
+            this.DataDespesa = this.DataDespesa!.Value.AddMonths(controlador);
+            if (DataVencimento != null)
+            {
+                this.DataVencimento = this.DataVencimento!.Value.AddMonths(controlador);
+            }
+            this.DataPrevisao = null;
+        }
+
+        public void setDescricaoRepeticao(int repeticaoAtual)
+        {
+            this.DescricaoRepeticao = this.Descricao + ' ' + '(' + repeticaoAtual + '/' + this.QuantidadeRepeticao + ')';
         }
         #endregion
 

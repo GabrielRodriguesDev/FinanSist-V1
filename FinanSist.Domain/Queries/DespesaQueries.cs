@@ -81,10 +81,6 @@ namespace FinanSist.Domain.Queries
             sql.AppendLine("Left Join Categoria CT On CT.Id = DP.CategoriaId ");
 
             sql.AppendLine("Where 1=1");
-            if (searchParams.Ativo != null)
-            {
-                sql.AppendLine($@"and Ativo = @Ativo");
-            }
             if (!String.IsNullOrEmpty(searchParams.Texto))
             {
                 if (searchParams.TextosFiltroTabela != null && searchParams.TextosFiltroTabela.Count() > 0)

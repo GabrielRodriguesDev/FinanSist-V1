@@ -53,5 +53,30 @@ namespace FinanSist.Database.Helpers
             }
             return sequencia.Numero;
         }
+
+        public int ProximoNumeroCurrentTransaction(string nomeTabela)
+        {
+            var sequencia = _connection.Query<Sequencia>($@"Select * From Sequencia Where Nome = @Nome", new { Nome = nomeTabela }, _uow.CurrentTransaction()).FirstOrDefault();
+            try
+            {
+                if (sequencia == null)
+                {
+                    sequencia = new Sequencia(nomeTabela);
+                    _connection.Execute("INSERT INTO `sequencia` (`Id`, `Nome`, `Numero`, `CriadoEm`, `AlteradoEm`) VALUES (@Id, @Nome, @Numero, @CriadoEm, @AlteradoEm);", sequencia, _uow.CurrentTransaction());
+
+                }
+                else
+                {
+                    sequencia.ProximoNumero();
+                    sequencia.setAlteradoEm();
+                    _connection.Execute("Update Sequencia set Numero = @Numero Where Id = @Id", sequencia, _uow.CurrentTransaction());
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+            return sequencia.Numero;
+        }
     }
 }

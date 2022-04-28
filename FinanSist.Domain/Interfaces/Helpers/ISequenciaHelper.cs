@@ -8,5 +8,7 @@ namespace FinanSist.Domain.Interfaces.Helpers
     public interface ISequenciaHelper
     {
         int ProximoNumero(String nomeTabela);
+
+        int ProximoNumeroCurrentTransaction(String nomeTabela);
     }
 }

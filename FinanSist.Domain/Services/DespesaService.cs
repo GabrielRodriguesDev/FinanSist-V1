@@ -41,11 +41,11 @@ namespace FinanSist.Domain.Services
                 var categoriadb = _despesaRepository.RetornaCampo(createDespesaCommand.CategoriaId, "Categoria", "Nome");
                 if (categoriadb == null) return new GenericCommandResult(false, "Desculpe, categoria não localizada");
             }
-            var codigoInterno = _sequenciaHelper.ProximoNumero(typeof(Despesa).Name);
+
             Despesa despesa = new Despesa(createDespesaCommand);
+            var codigoInterno = _sequenciaHelper.ProximoNumero(typeof(Despesa).Name);
             despesa.setCodigoInterno(codigoInterno);
-
-
+            despesa.setDescricaoRepeticao(1);
 
             _uow.BeginTransaction();
             try
@@ -58,8 +58,17 @@ namespace FinanSist.Domain.Services
                         _despesaTagService.Create(createDepesaTagCommand);
                     }
                 }
+
                 _despesaRepository.Create(despesa);
                 _uow.Commit();
+                if (createDespesaCommand.Repetir)
+                {
+                    var resultDepesaRepetidas = this.CreateDepesasRepeticao(createDespesaCommand);
+                    if (!resultDepesaRepetidas.Success)
+                    {
+                        return resultDepesaRepetidas;
+                    }
+                }
             }
             catch (Exception)
             {
@@ -78,6 +87,60 @@ namespace FinanSist.Domain.Services
                 Tags = new { createDespesaCommand.TagId },
                 Observacao = despesa.Observacao
             });
+        }
+
+        public GenericCommandResult CreateDepesasRepeticao(CreateDespesaCommand createDespesaCommand)
+        {
+            List<CreateDespesaCommand> createDespesaList = new List<CreateDespesaCommand>();
+            createDespesaList.Add(createDespesaCommand);
+            for (int i = 1; i < createDespesaCommand.QuantidadeRepeticao; i++)
+            {
+                CreateDespesaCommand createDespesaCommandTemp = createDespesaList.Last().DeepCopy();
+                createDespesaList.Add(createDespesaCommandTemp);
+            }
+            try
+            {
+                int controladorData = 0;
+                int controladorRepeticao = 1;
+                _uow.BeginTransaction();
+                foreach (var createDespesa in createDespesaList)
+                {
+                    if (createDespesaList.IndexOf(createDespesa) != 0)
+                    {
+
+
+                        Despesa despesa = new Despesa(createDespesa);
+
+                        controladorData = controladorData + 1;
+                        despesa.setDataDespesaRepeticao(controladorData);
+
+                        controladorRepeticao = controladorRepeticao + 1;
+                        despesa.setDescricaoRepeticao(controladorRepeticao);
+
+
+                        var codigoInterno = _sequenciaHelper.ProximoNumeroCurrentTransaction(typeof(Despesa).Name);
+                        despesa.setCodigoInterno(codigoInterno);
+
+                        if (createDespesa.TagId != null && createDespesa.TagId.Count() > 0)
+                        {
+                            foreach (var tagId in createDespesa.TagId!)
+                            {
+                                GenericDepesaTagCommand createDepesaTagCommand = new GenericDepesaTagCommand(despesa.Id, tagId);
+                                _despesaTagService.Create(createDepesaTagCommand);
+                            }
+                        }
+                        _despesaRepository.Create(despesa);
+                    }
+
+                }
+                _uow.Commit();
+            }
+            catch (Exception e)
+            {
+                _uow.Rollback();
+                return new GenericCommandResult(false, $"Erro ao salvar registros repetidos. {e}");
+            }
+            return new GenericCommandResult(true, "Registros repetidos salvos com sucesso.");
         }
 
         public GenericCommandResult Update(UpdateDespesaCommand updateDespesaCommand)
@@ -166,5 +229,7 @@ namespace FinanSist.Domain.Services
             }
             return new GenericCommandResult(true, "Despesa removida com sucesso");
         }
+
+
     }
 }

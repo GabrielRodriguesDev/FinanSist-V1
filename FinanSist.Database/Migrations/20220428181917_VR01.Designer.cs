@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanSist.Database.Migrations
 {
     [DbContext(typeof(FinanSistContext))]
-    [Migration("20220420022904_VR01")]
+    [Migration("20220428181917_VR01")]
     partial class VR01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,6 +74,9 @@ namespace FinanSist.Database.Migrations
                     b.Property<DateTime?>("CriadoEm")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateTime?>("DataDespesa")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<DateTime?>("DataPagamento")
                         .HasColumnType("datetime(6)")
                         .HasComment("Data de pagamento da Despesa.");
@@ -82,9 +85,16 @@ namespace FinanSist.Database.Migrations
                         .HasColumnType("datetime(6)")
                         .HasComment("Data de previsão de pagamento da Despesa.");
 
+                    b.Property<DateTime?>("DataVencimento")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Descricao")
                         .HasColumnType("varchar(200)")
                         .HasComment("Descrição da Despesa.");
+
+                    b.Property<string>("DescricaoRepeticao")
+                        .HasColumnType("varchar(210)")
+                        .HasComment("Descrição referente a repetição da despesa.");
 
                     b.Property<bool>("Efetivado")
                         .HasColumnType("tinyint(1)")
@@ -98,6 +108,18 @@ namespace FinanSist.Database.Migrations
                     b.Property<string>("Observacao")
                         .HasColumnType("varchar(200)")
                         .HasComment("Observações da Despesa.");
+
+                    b.Property<int?>("PeriodoRepeticao")
+                        .HasColumnType("int")
+                        .HasComment("Periodo no qual a repetição vai existir sendo 1 -> Mensal e 2 -> Anual");
+
+                    b.Property<int?>("QuantidadeRepeticao")
+                        .HasColumnType("int")
+                        .HasComment("Quantidade de repetição deve existir de uma determinada despesa");
+
+                    b.Property<bool>("Repetir")
+                        .HasColumnType("tinyint(1)")
+                        .HasComment("Controle de estado que define se a despesa deve repetir ou não.");
 
                     b.Property<decimal?>("Valor")
                         .IsRequired()
