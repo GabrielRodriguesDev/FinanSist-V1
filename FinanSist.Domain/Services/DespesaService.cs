@@ -38,8 +38,9 @@ namespace FinanSist.Domain.Services
 
             if (createDespesaCommand.CategoriaId != null)
             {
-                var categoriadb = _despesaRepository.RetornaCampo(createDespesaCommand.CategoriaId, "Categoria", "Nome");
+                var categoriadb = _despesaRepository.RetornaCampo(createDespesaCommand.CategoriaId, "Categoria", "Tipo");
                 if (categoriadb == null) return new GenericCommandResult(false, "Desculpe, categoria não localizada");
+                if (categoriadb.Tipo != "1" && categoriadb.Tipo != "0") return new GenericCommandResult(false, "Desculpe, tipo de Categoria não pode ser usada para a despesa.");
             }
 
             Despesa despesa = new Despesa(createDespesaCommand);

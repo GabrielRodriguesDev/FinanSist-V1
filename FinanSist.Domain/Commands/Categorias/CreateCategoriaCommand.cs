@@ -45,10 +45,7 @@ namespace FinanSist.Domain.Commands.Categorias
                 {
                     this.AddNotification("Tipo", "Informe um tipo de categoria válido.");
                 }
-                if (this.Tipo != 0 && this.Tipo != 1)
-                {
-                    this.AddNotification("Tipo", "Informe um tipo de categoria válido para despesa.");
-                }
+
             }
         }
     }

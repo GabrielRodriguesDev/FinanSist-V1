@@ -1,30 +1,52 @@
--- SCRIPT INSERT --
-INSERT INTO `categoria` (`Id`, `Nome`, `Tipo`, `Ativo`, `CriadoEm`, `AlteradoEm`) VALUES ('3e05a3cc-0ab4-4d64-be73-953cb2edcd41', 'Categoria TST 1', '0', 1, '2022-04-05 14:35:11.690321', NULL);
-
-
-INSERT INTO `entidade` (`Id`, `Nome`, `Descricao`, `Ativo`, `CriadoEm`, `AlteradoEm`) VALUES ('fae0bce1-d829-4947-ab94-862073e7323a', 'Entidade TST  1', 'Entidade de teste.', 1, '2022-04-05 14:36:43.828880', NULL);
-
-
-INSERT INTO `tag` (`Id`, `Nome`, `Descricao`, `Ativo`, `CriadoEm`, `AlteradoEm`) VALUES ('164e063a-8807-47e0-bf4b-89409cad43ad', 'Tag TST 1', 'Tag de teste.', 1, '2022-04-05 14:37:06.336508', NULL);
-
-
--- Create Despesa --
-{
-  "descricao": "Despesa TST 1",
- "dataPagamento": null,
-  "dataPrevisao": null,
-  "entidadeId": "fae0bce1-d829-4947-ab94-862073e7323a",
-  "categoriaId": "3e05a3cc-0ab4-4d64-be73-953cb2edcd41",
-  
-  "observacao": "Despesa de teste."
-}
-
-
--- User Auth --
+---- User Auth ----
 {
   "email": "administrador@finansist.com.br",
   "senha": "Fx@870Fx@870"
 }
+---- ENTIDADE ----
+{
+  "nome": "Xp Investimentos",
+  "descricao": "Corretora"
+}
+
+---- CATEGORIA ----
+{
+  "nome": "Cartão de Crédito",
+  "tipo": 1
+}
+
+---- TAGS ----
+{
+  "nome": "Uber",
+  "descricao": ""
+}
+
+{
+  "nome": "DJ's Festas & Eventos",
+  "descricao": ""
+}
+
+---- DESPESA ----
+
+{
+  "descricao": "Uber DJ's",
+  "dataPrevisao": "2022-06-05",
+  "dataVencimento": "2022-06-10",
+  "valor": 10.91,
+  "efetivado": false,
+  "entidadeId": "26c0a090-6bec-4fba-b70b-a0811ddd0ee6",
+  "categoriaId": "9b4408e3-9bb5-44cc-9c69-a876b064ace3",
+  "observacao": "Uber para chegar ao evento.",
+  "repetir": false,
+  "quantidadeRepeticao": 0,
+  "periodoRepeticao": 0,
+  "tagId": [
+    "92785f8c-fc82-4cd4-b94b-0d114f150766",
+"8f5c03a4-405b-4d01-b81f-304247361344"
+  ]
+}
+
+
 
 
 
