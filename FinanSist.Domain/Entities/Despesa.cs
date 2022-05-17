@@ -96,7 +96,15 @@ namespace FinanSist.Domain.Entities
 
         public void setDescricaoRepeticao(int repeticaoAtual)
         {
-            this.DescricaoRepeticao = this.Descricao + ' ' + '(' + repeticaoAtual + '/' + this.QuantidadeRepeticao + ')';
+            if (this.QuantidadeRepeticao > 0)
+            {
+                this.DescricaoRepeticao = this.Descricao + ' ' + '(' + repeticaoAtual + '/' + this.QuantidadeRepeticao + ')';
+            }
+            else
+            {
+                this.DescricaoRepeticao = this.Descricao + ' ' + '(' + repeticaoAtual + '/' + 1 + ')';
+            }
+
         }
         #endregion
 

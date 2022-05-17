@@ -82,9 +82,13 @@ namespace FinanSist.Domain.Services
                 Descricao = despesa.Descricao,
                 DataPagamento = despesa.DataPagamento,
                 DataPrevisao = despesa.DataPrevisao,
+                DataVencimento = despesa.DataVencimento,
+                Valor = despesa.Valor,
                 EntidadeId = despesa.EntidadeId,
                 CategoriaId = despesa.CategoriaId,
                 Tags = new { createDespesaCommand.TagId },
+                Repeticao = despesa.Repetir,
+                DescricaoRepeticao = despesa.DescricaoRepeticao,
                 Observacao = despesa.Observacao
             });
         }
@@ -107,8 +111,6 @@ namespace FinanSist.Domain.Services
                 {
                     if (createDespesaList.IndexOf(createDespesa) != 0)
                     {
-
-
                         Despesa despesa = new Despesa(createDespesa);
 
                         controladorData = controladorData + 1;

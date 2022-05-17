@@ -59,6 +59,14 @@ namespace FinanSist.Domain.Commands.Despesa
                 }
             }
 
+            if (this.Efetivado)
+            {
+                if (this.DataPagamento == null)
+                {
+                    this.AddNotification("DataPagamento", "Para uma despesa efetivada é obrigatório informar a data de pagamento.");
+                }
+            }
+
 
         }
     }
