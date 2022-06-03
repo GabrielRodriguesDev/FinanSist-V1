@@ -13,6 +13,13 @@ namespace FinanSist.WebApi.Controllers
     [Route("[controller]")]
     public class CategoriaController : ControllerBase
     {
+        private readonly ILogger<CategoriaController> _logger;
+
+        public CategoriaController(ILogger<CategoriaController> logger)
+        {
+            this._logger = logger;
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Create([FromServices] ICategoriaService categoriaService, [FromBody] CreateCategoriaCommand createCategoriaCommand)
@@ -123,6 +130,7 @@ namespace FinanSist.WebApi.Controllers
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Pesquisar([FromServices] ICategoriaRepository categoriaRepository, [FromBody] SearchParams? searchParams)
         {
+
             var tsc = new TaskCompletionSource<IActionResult>();
             try
             {

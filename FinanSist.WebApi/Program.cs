@@ -1,17 +1,18 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using FinanSist.CrossCutting;
-using FinanSist.Database;
-using FinanSist.Database.Repositories;
-using FinanSist.Domain.Interfaces.Repositories;
 using WMSLite.WebApi;
+using FinanSist.WebApi.Middleware;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
+
+
 
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews(options =>
@@ -89,15 +90,16 @@ builder.Services.AddAuthentication(auth =>
                         ValidateAudience = false, // Definindo que não deve validar o Audience
                         ClockSkew = TimeSpan.Zero //Definindo a "inclinação do relógio"
                     };
-                    jwt.Events = new JwtBearerEvents
-                    {
-                        OnMessageReceived = context =>
-                        {
-                            context.Token = context.Request.Cookies["tknjwt"];
-                            return Task.CompletedTask;
-                        }
-                    };
                 });
+#endregion
+
+#region Serilog
+var logger = new LoggerConfiguration()
+  .ReadFrom.Configuration(builder.Configuration)
+  .Enrich.FromLogContext()
+  .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 #endregion
 
 #region CORS
@@ -145,6 +147,10 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 }
 
 app.UseStaticFiles();
+
+#region Middleware
+app.UseMiddleware<ErrorHandlerMiddleware>();
+#endregion
 
 
 app.UseHttpsRedirection();

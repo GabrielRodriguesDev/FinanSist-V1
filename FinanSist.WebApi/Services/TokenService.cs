@@ -66,7 +66,7 @@ namespace FinanSist.Domain.Services
             {
                 validateToken = tokenHandler.ValidateToken(cmd.Token, tokenValidationParameters, out securityToken);
                 var jwtSecurityToken = securityToken as JwtSecurityToken;
-                if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256))
                     return new RefreshAutenticado(false, "Token inválido.");
             }
             catch (System.Exception)

@@ -28,7 +28,7 @@ namespace FinanSist.Domain.Entities
         public int? PeriodoRepeticao { get; private set; }
         public String? DescricaoRepeticao { get; private set; } = null!;
         public int CodigoInterno { get; private set; }
-        public IList<DespesaTag>? DespesaTag { get; private set; }
+        public HashSet<DespesaTag>? DespesaTag { get; private set; } // Alterei de IList para HashSet -> Testar para ver se funciona o HashSet tem melhor desempenho em leitura e gravação
 
         #endregion
 
