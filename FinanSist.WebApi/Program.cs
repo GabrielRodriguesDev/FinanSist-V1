@@ -90,6 +90,17 @@ builder.Services.AddAuthentication(auth =>
                         ValidateAudience = false, // Definindo que não deve validar o Audience
                         ClockSkew = TimeSpan.Zero //Definindo a "inclinação do relógio"
                     };
+                    jwt.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            if (context.Request.Cookies.ContainsKey("tk_Finansist"))
+                            {
+                                context.Token = context.Request.Cookies["tk_Finansist"];
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 #endregion
 

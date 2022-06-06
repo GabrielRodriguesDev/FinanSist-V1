@@ -18,7 +18,6 @@ public class ConfigureRepository
 
         services.AddDbContext<FinanSistContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
         services.AddScoped<FinanSistContext, FinanSistContext>();
-
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         services.AddScoped<ICategoriaRepository, CategoriaRepository>();

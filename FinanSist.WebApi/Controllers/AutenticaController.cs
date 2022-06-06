@@ -5,6 +5,7 @@ using FinanSist.Domain.Commands.Autentica;
 using FinanSist.Domain.Services;
 using FinanSist.Domain.Interfaces.Services;
 using FinanSist.Domain.Commands;
+using FinanSist.WebApi.Helpers;
 
 namespace FinanSist.WebApi.Controllers
 {
@@ -20,12 +21,14 @@ namespace FinanSist.WebApi.Controllers
             var tsc = new TaskCompletionSource<IActionResult>();
             try
             {
+                CookieHelper.ClearCookie(Response);
                 var refreshToken = TokenService.GenerateRefreshToken();
                 var result = service.Login(cmd, refreshToken);
                 if (result.Success)
                 {
                     var token = TokenService.GenerateToken(result.Autenticado);
 
+                    CookieHelper.SetCookie(Response, token);
                     tsc.SetResult(new JsonResult(this.ResultLogin(result, token, "Login efetuado com sucesso"))
                     {
                         StatusCode = 200
