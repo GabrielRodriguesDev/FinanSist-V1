@@ -1,0 +1,3 @@
+1. Builda a imagem docker do prometheus. -> docker build -t  prometheus/gabriel .             
+
+2. Coloca o container para rodar. -> docker container run -d --name Gabriel-Prometheus-NET -p 9090:9090 prometheus/gabriel

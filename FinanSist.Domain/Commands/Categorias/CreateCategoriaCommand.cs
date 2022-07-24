@@ -45,7 +45,6 @@ namespace FinanSist.Domain.Commands.Categorias
                 {
                     this.AddNotification("Tipo", "Informe um tipo de categoria válido.");
                 }
-
             }
         }
     }

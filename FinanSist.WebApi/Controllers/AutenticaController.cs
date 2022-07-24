@@ -6,6 +6,7 @@ using FinanSist.Domain.Services;
 using FinanSist.Domain.Interfaces.Services;
 using FinanSist.Domain.Commands;
 using FinanSist.WebApi.Helpers;
+using Prometheus;
 
 namespace FinanSist.WebApi.Controllers
 {
@@ -13,6 +14,9 @@ namespace FinanSist.WebApi.Controllers
     [Route("[controller]")]
     public class AutenticaController : ControllerBase
     {
+        private static readonly Counter _Counter_Login = Metrics
+    .CreateCounter("finansist_counter_login", "Número de logins.");
+
         #region  Controllers
         [HttpPost]
         [AllowAnonymous]
@@ -29,6 +33,7 @@ namespace FinanSist.WebApi.Controllers
                     var token = TokenService.GenerateToken(result.Autenticado);
 
                     CookieHelper.SetCookie(Response, token);
+                    _Counter_Login.Inc();
                     tsc.SetResult(new JsonResult(this.ResultLogin(result, token, "Login efetuado com sucesso"))
                     {
                         StatusCode = 200

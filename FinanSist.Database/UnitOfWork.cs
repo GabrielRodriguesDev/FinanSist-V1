@@ -29,7 +29,7 @@ namespace FinanSist.Database
         #region  Method
         public void BeginTransaction() // Inicia a transação.
         {
-            _dbContextTransaction = _context.Database.BeginTransaction();
+            _dbContextTransaction = _context.Database.BeginTransaction(); // A trasação só pode ser iniciada pelo método Begin()
         }
 
         public void Commit()
@@ -47,7 +47,7 @@ namespace FinanSist.Database
         {
             IDbTransaction result = null;
             if (_dbContextTransaction != null)
-                result = _dbContextTransaction.GetDbTransaction();
+                result = _dbContextTransaction.GetDbTransaction(); //Obtém a transação atual que está aberta.
             return result;
         }
 

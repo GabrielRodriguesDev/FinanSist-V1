@@ -6,6 +6,8 @@ using FinanSist.CrossCutting;
 using WMSLite.WebApi;
 using FinanSist.WebApi.Middleware;
 using Serilog;
+using Prometheus;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,10 @@ builder.Services.AddControllersWithViews(options =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+# region 
+Environment.SetEnvironmentVariable("Connection_db", builder.Configuration["ConnectionStrings:Connection_db"]);
+#endregion
 
 #region Swagger
 builder.Services.AddSwaggerGen(s =>
@@ -69,6 +75,7 @@ builder.Services.AddSwaggerGen(s =>
 #region  DI
 ConfigureRepository.Config(builder.Services);
 ConfigureService.Config(builder.Services);
+builder.Services.AddHttpContextAccessor();
 #endregion
 
 #region  Auth
@@ -134,8 +141,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsApi", builder =>
     {
-        builder.WithOrigins("http://example.com",
-                            "http://www.contoso.com")
+        builder.WithOrigins()
                             .AllowAnyHeader()
                             .AllowAnyMethod();
     });
@@ -145,17 +151,30 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
         options.InjectStylesheet("/swagger-ui/SwaggerDark.css");
-        options.RoutePrefix = string.Empty;
+        options.RoutePrefix = "";
     });
 }
+else
+{
+
+    app.UseMiddleware<SwaggerAuthorizedMiddleware>();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+        options.InjectStylesheet("/swagger-ui/SwaggerDark.css");
+        options.RoutePrefix = "docs";
+    });
+}
+
+
 
 app.UseStaticFiles();
 
@@ -166,14 +185,26 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
-app.UseCors("CorsApi");
+#region Metrics-Prometheus
+app.UseRouting();
+app.UseHttpMetrics(options =>
+{
+    //options.ReduceStatusCodeCardinality();
+});
+#endregion
 
+app.UseCors("CorsApi");
 
 #region  Auth
 app.UseAuthentication();
 app.UseAuthorization();
 #endregion
 
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapMetrics();
+    endpoints.MapControllers();
+});
+
 
 app.Run();

@@ -6,6 +6,7 @@ using FinanSist.Domain.Interfaces.Repositories;
 using FinanSist.Domain.Queries.Params;
 using FinanSist.Domain.Queries;
 using FinanSist.Domain.Commands;
+using Prometheus;
 
 namespace FinanSist.WebApi.Controllers
 {
@@ -13,8 +14,13 @@ namespace FinanSist.WebApi.Controllers
     [Route("[controller]")]
     public class EntidadeController : ControllerBase
     {
+        private static readonly Counter _CounterGetAll = Metrics
+    .CreateCounter("finansist_counter_getall", "Número de chamadas ao get all.");
+
+
+
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Create([FromServices] IEntidadeService entidadeService, [FromBody] CreateEntidadeCommand createEntidadeCommand)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
@@ -37,7 +43,6 @@ namespace FinanSist.WebApi.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         public async Task<IActionResult> Update([FromServices] IEntidadeService entidadeService, [FromBody] UpdateEntidadeCommand updateEntidadeCommand)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
@@ -62,7 +67,6 @@ namespace FinanSist.WebApi.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        [Authorize]
         public async Task<IActionResult> Delete([FromServices] IEntidadeService entidadeService, [FromRoute] Guid id)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
@@ -117,7 +121,7 @@ namespace FinanSist.WebApi.Controllers
 
         [HttpPost]
         [Route("Pesquisar")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Pesquisar([FromServices] IEntidadeRepository repository, [FromBody] SearchParams? searchParams)
         {
             var tsc = new TaskCompletionSource<IActionResult>();
@@ -135,6 +139,7 @@ namespace FinanSist.WebApi.Controllers
                 dynamic result = repository.Pesquisar(searchParams);
                 if (result.Count == 0) result = new GenericCommandResult(false, "Desculpe, nenhum registro foi localizado.");
 
+                _CounterGetAll.Inc();
                 tsc.SetResult(new JsonResult(result)
                 {
                     StatusCode = 200

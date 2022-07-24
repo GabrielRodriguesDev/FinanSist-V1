@@ -4,23 +4,32 @@ volumes:
     finansist:
 
 networks:
-    mysqlNet:
     finansistNet:
 
 services:
-    mysql:
-        image: "mysql:8.0"
-        container_name: mysql
-        ports:
-          - "7000:3306"
-        volumes:
-          - finansist:/var/lib/mysql
-        networks:
-          - mysqlNet
-        environment:
-          - MYSQL_ROOT_PASSWORD=fx870
-          - bind-address:0.0.0.0
-          - MYSQL_ROOT_HOST=%
+
+    prometheus:
+      image: prom/prometheus
+      container_name: prometheus
+      ports:
+          - 9090:9090
+      volumes:
+          - ./Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      depends_on:
+        - finansist    
+      networks:
+          - finansistNet
+
+    grafana:
+      image: grafana/grafana
+      ports:
+        - "3000:3000"
+      container_name: grafana
+      depends_on:
+        - prometheus
+      networks:
+        - finansistNet
+
 
     finansist:
         build:
@@ -29,10 +38,3 @@ services:
         container_name: finansist
         ports:
           - 5000:80
-        environment: 
-          - DBHOST=mysql
-        networks:
-          - mysqlNet
-          - finansistNet
-        depends_on:
-          - mysql
